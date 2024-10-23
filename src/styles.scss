@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use "./theme/m3-theme.scss";
+@use "./theme/mixins";
+
+@include mat.core();
+
+// including the custom theme to all the components
+:root {
+  @include mat.all-component-themes(m3-theme.$light-theme);
+  @include mixins.mat-component-variants(m3-theme.$light-theme);
+}
+
+.dark-theme {
+  color-scheme: dark;
+  @include mat.all-component-colors(m3-theme.$dark-theme);
+  @include mixins.mat-component-variants(m3-theme.$dark-theme);
+}
+
+@include mat.typography-hierarchy(m3-theme.$light-theme);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Tailwind CSS Config
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

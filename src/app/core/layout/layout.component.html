@@ -1,10 +1,15 @@
 <mat-toolbar>
   <div class="flex justify-between items flex-1">
     <h1 class="mat-headline-medium">Coffee app</h1>
+    @if(currentUser){
     <div class="flex gap-2">
       <a routerLink="/">Home</a>
       <a routerLink="cafes">Cafes</a>
     </div>
+    }@else{
+    <a routerLink="/login">Login</a>
+
+    }
   </div>
 </mat-toolbar>
 

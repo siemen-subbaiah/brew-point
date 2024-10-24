@@ -8,12 +8,14 @@
 :root {
   @include mat.all-component-themes(m3-theme.$light-theme);
   @include mixins.mat-component-variants(m3-theme.$light-theme);
+  @include mat.system-level-colors(m3-theme.$light-theme);
 }
 
 .dark-theme {
   color-scheme: dark;
   @include mat.all-component-colors(m3-theme.$dark-theme);
   @include mixins.mat-component-variants(m3-theme.$dark-theme);
+  @include mat.system-level-colors(m3-theme.$dark-theme);
 }
 
 @include mat.typography-hierarchy(m3-theme.$light-theme);
@@ -25,6 +27,25 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.surface {
+  background-color: var(--sys-surface);
+}
+.surface-container-lowest {
+  background-color: var(--sys-surface-container-lowest);
+}
+.surface-container-low {
+  background-color: var(--sys-surface-container-low);
+}
+.surface-container {
+  background-color: var(--sys-surface-container);
+}
+.surface-container-high {
+  background-color: var(--sys-surface-container-high);
+}
+.surface-container-highest {
+  background-color: var(--sys-surface-container-highest);
 }
 
 // Tailwind CSS Config

@@ -1,3 +1,28 @@
-<div class="p-2">
-  <button mat-flat-button (click)="onLogin()">Login using google</button>
-</div>
+<section class="flex items-center justify-around h-screen background-image">
+  <div>
+    <h1 class="mat-display-small text-white">Drip</h1>
+    <p class="mat-headline-small text-white">
+      Start your coffee journey with us!
+    </p>
+  </div>
+  <div
+    class="flex flex-col items-center justify-center p-5 rounded-xl w-1/4 h-3/5 glass-design"
+  >
+    <h1 class="mat-display-medium">Welcome</h1>
+    <h2 class="mat-headline-small">Login/Signup</h2>
+    <div
+      class="flex items-center justify-center gap-2 p-2 rounded-lg mat-elevation-z1 w-1/2 mb-3 cursor-pointer text-center bg-[#FFDCBF]"
+      (click)="onLogin()"
+    >
+      <img src="/google.svg" alt="google-logo" />
+      <span class="mat-title-small"> Google </span>
+    </div>
+    <div
+      class="flex items-center justify-center gap-2 p-2 rounded-lg mat-elevation-z1 w-1/2 cursor-pointer text-center bg-[#FFDCBF]"
+      (click)="onLogin()"
+    >
+      <img src="/microsoft.svg" alt="microsoft-logo" />
+      <span class="mat-title-small"> Microsoft </span>
+    </div>
+  </div>
+</section>

@@ -1,4 +1,4 @@
-@if(isDesktopTabScreen && !isAvatarPage){
+@if(breakPointService.isDesktopTabScreen && !isAvatarPage){
 <app-top-bar />
 }
 
@@ -6,6 +6,6 @@
   <ng-content />
 </main>
 
-@if(isMobileScreen && !isAvatarPage){
+@if(breakPointService.isMobileScreen && !isAvatarPage){
 <app-bottom-bar />
 }

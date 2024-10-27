@@ -14,19 +14,11 @@ import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
 })
 export class MainLayoutComponent {
   constructor(
-    private breakPointService: BreakPointService,
+    public breakPointService: BreakPointService,
     private router: Router
   ) {}
 
   get isAvatarPage() {
     return this.router.url.includes('avatar');
-  }
-
-  get isDesktopTabScreen() {
-    return this.breakPointService.currentScreenSize !== 'XSmall';
-  }
-
-  get isMobileScreen() {
-    return this.breakPointService.currentScreenSize === 'XSmall';
   }
 }

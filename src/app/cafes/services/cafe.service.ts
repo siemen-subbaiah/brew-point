@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Cafe } from '../models/cafe.model';
 
 @Injectable({
@@ -15,6 +15,7 @@ import { Cafe } from '../models/cafe.model';
 export class CafeService {
   firestore = inject(Firestore);
   cafeCollection = collection(this.firestore, 'restaurants');
+  allCafes$ = new Subject<{ id: string; name: string }[]>();
 
   listCafes(): Observable<Cafe[]> {
     return collectionData(this.cafeCollection, { idField: 'id' }) as Observable<

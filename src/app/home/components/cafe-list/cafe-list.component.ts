@@ -4,11 +4,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { TruncatePipe } from '../../../core/pipes/truncate.pipe';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-cafe-list',
   standalone: true,
-  imports: [RouterLink, TruncatePipe, MatCardModule, MatButtonModule],
+  imports: [
+    NgOptimizedImage,
+    RouterLink,
+    TruncatePipe,
+    MatCardModule,
+    MatButtonModule,
+  ],
   templateUrl: './cafe-list.component.html',
   styleUrl: './cafe-list.component.scss',
 })

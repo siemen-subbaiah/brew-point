@@ -1,0 +1,19 @@
+<form class="mt-5">
+  <mat-form-field class="search-form" appearance="fill">
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      type="text"
+      placeholder="Search Cafes"
+      matInput
+      [formControl]="myControl"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      @for (option of filteredOptions | async; track option) {
+      <mat-option (onSelectionChange)="onSelectCafe(option.id)">{{
+        option.name
+      }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

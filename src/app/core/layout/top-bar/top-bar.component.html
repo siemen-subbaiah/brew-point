@@ -4,24 +4,9 @@
       <a routerLink="/">
         <img src="/logo.svg" alt="logo" class="mt-1" />
       </a>
-      <form class="mt-5">
-        <mat-form-field class="search-form" appearance="fill">
-          <mat-icon matPrefix>search</mat-icon>
-          <input
-            type="text"
-            placeholder="Search Cafes"
-            aria-label="Number"
-            matInput
-            [formControl]="myControl"
-            [matAutocomplete]="auto"
-          />
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            @for (option of filteredOptions | async; track option) {
-            <mat-option [value]="option">{{ option }}</mat-option>
-            }
-          </mat-autocomplete>
-        </mat-form-field>
-      </form>
+      @if(options.length){
+      <app-search [options]="options" />
+      }
     </div>
     <app-nav-links />
   </div>

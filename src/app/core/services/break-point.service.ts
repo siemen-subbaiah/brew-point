@@ -45,6 +45,14 @@ export class BreakPointService implements OnDestroy {
       });
   }
 
+  get isDesktopTabScreen() {
+    return this.currentScreenSize !== 'XSmall';
+  }
+
+  get isMobileScreen() {
+    return this.currentScreenSize === 'XSmall';
+  }
+
   ngOnDestroy() {
     this.destroyed.next();
     this.destroyed.complete();

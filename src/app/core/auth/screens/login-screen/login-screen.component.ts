@@ -16,8 +16,13 @@ export class LoginScreenComponent {
   onLogin() {
     this.authService.loginOrRegister().subscribe({
       next: (res) => {
-        console.log(res);
-        this.router.navigate(['/']);
+        this.authService.currentUser = res.user;
+        localStorage.setItem('photoURL', res?.user?.photoURL ?? '');
+        if (!this.authService.isAvatarExists(res.user.photoURL)) {
+          this.router.navigate(['/avatar']);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
     });
   }

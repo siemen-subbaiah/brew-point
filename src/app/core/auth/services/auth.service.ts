@@ -3,6 +3,8 @@ import {
   Auth,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile,
+  User,
   user,
 } from '@angular/fire/auth';
 import { from } from 'rxjs';
@@ -13,7 +15,7 @@ import { from } from 'rxjs';
 export class AuthService {
   auth = inject(Auth);
   user$ = user(this.auth);
-  currentUser!: { email: string; displayName: string };
+  currentUser!: User;
 
   loginOrRegister() {
     const promise = signInWithPopup(this.auth, new GoogleAuthProvider());
@@ -21,6 +23,23 @@ export class AuthService {
       localStorage.setItem('uid', res.user.uid);
     });
     return from(promise);
+  }
+
+  updateAvatar(avatar: string) {
+    const promise = updateProfile(this.currentUser, {
+      photoURL: avatar,
+    });
+    return from(promise);
+  }
+
+  isAvatarExists(photoURL: string | null) {
+    if (!photoURL) {
+      return true;
+    } else if (photoURL.includes('googleusercontent')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   logout() {

@@ -1,4 +1,14 @@
-<div class="p-2">
-  <h4 class="mat-body-large">Logged in as {{ displayName }}</h4>
-  <button mat-flat-button (click)="onLogout()">Logout</button>
-</div>
+<section>
+  <div class="mb-4">
+    <button mat-fab extended>
+      <mat-icon>add</mat-icon>
+      Discover
+    </button>
+  </div>
+  <h1 class="mat-headline-medium">Top Cafes</h1>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+    @for(cafe of cafes;track cafe.id){
+    <app-cafe-list [cafe]="cafe" />
+    }
+  </div>
+</section>

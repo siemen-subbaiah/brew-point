@@ -1,0 +1,14 @@
+<mat-card appearance="outlined">
+  <img mat-card-image [src]="cafe.image" [alt]="cafe.name" class="cafe-image" />
+  <mat-card-header>
+    <mat-card-title>{{ cafe.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="mt-2">
+    <p>
+      {{ cafe.description | truncate }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <a [routerLink]="['cafes', cafe.id]" mat-button>Explore</a>
+  </mat-card-actions>
+</mat-card>

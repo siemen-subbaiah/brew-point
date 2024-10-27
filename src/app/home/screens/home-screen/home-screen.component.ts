@@ -1,42 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CafeService } from '../../../cafes/services/cafe.service';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../../core/auth/services/auth.service';
-import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { CafeListComponent } from '../../components/cafe-list/cafe-list.component';
+import { Cafe } from '../../../cafes/models/cafe.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-screen',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatIconModule, CafeListComponent],
   templateUrl: './home-screen.component.html',
   styleUrl: './home-screen.component.scss',
 })
-export class HomeScreenComponent {
-  displayName!: string;
-  constructor(
-    private authService: AuthService,
-    private cafeService: CafeService,
-    private router: Router
-  ) {}
+export class HomeScreenComponent implements OnInit, OnDestroy {
+  cafes!: Cafe[];
+  cafeSub = new Subscription();
+  constructor(private cafeService: CafeService) {}
 
   ngOnInit() {
-    this.displayName = this.authService.currentUser.displayName;
-    this.listCafes();
+    this.listPopularCafes();
   }
 
-  listCafes() {
-    this.cafeService.listCafes().subscribe({
+  listPopularCafes() {
+    this.cafeSub = this.cafeService.listPopularCafes().subscribe({
       next: (res) => {
-        console.log(res);
+        this.cafes = res;
       },
     });
   }
 
-  onLogout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
-      },
-    });
+  ngOnDestroy(): void {
+    this.cafeSub.unsubscribe();
   }
 }

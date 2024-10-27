@@ -1,5 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import {
+  collection,
+  collectionData,
+  Firestore,
+  query,
+  where,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Cafe } from '../models/cafe.model';
 
@@ -14,5 +20,13 @@ export class CafeService {
     return collectionData(this.cafeCollection, { idField: 'id' }) as Observable<
       Cafe[]
     >;
+  }
+
+  listPopularCafes(): Observable<Cafe[]> {
+    const q = query(this.cafeCollection, where('isPopular', '==', true));
+
+    return collectionData(q, {
+      idField: 'id',
+    }) as Observable<Cafe[]>;
   }
 }

@@ -1,0 +1,17 @@
+<div class="flex gap-12 mt-2">
+  @for(item of navLinks; track item.id){
+  <a
+    class="flex flex-col items-center no-underline link"
+    [routerLink]="[item.path]"
+  >
+    <button
+      mat-icon-button
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <mat-icon>{{ item.icon }}</mat-icon>
+    </button>
+    <p class="mat-label-medium">{{ item.label }}</p>
+  </a>
+  }
+</div>

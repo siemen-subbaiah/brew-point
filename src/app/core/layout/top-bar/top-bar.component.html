@@ -1,0 +1,28 @@
+<mat-toolbar class="sticky z-10 top-0">
+  <div class="flex items-center justify-between items flex-1">
+    <div class="flex gap-5 items-center">
+      <a routerLink="/">
+        <img src="/logo.svg" alt="logo" class="mt-1" />
+      </a>
+      <form class="mt-5">
+        <mat-form-field class="search-form" appearance="fill">
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            type="text"
+            placeholder="Search Cafes"
+            aria-label="Number"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    <app-nav-links />
+  </div>
+</mat-toolbar>

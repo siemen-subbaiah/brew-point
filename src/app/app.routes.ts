@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
-import { loggedInGuardGuard } from './core/utils/login.guard';
+import { loggedInGuardGuard } from './core/guards/login.guard';
+import { avatarGuard } from './account/guard/avatar.guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -20,6 +21,17 @@ export const routes: Routes = [
         (m) => m.HomeScreenComponent
       ),
     canActivate: [AuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+  },
+  {
+    path: 'avatar',
+    loadComponent: () =>
+      import('./avatar/screens/avatar-screen/avatar-screen.component').then(
+        (m) => m.AvatarScreenComponent
+      ),
+    canActivate: [AuthGuard, avatarGuard],
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
@@ -46,5 +58,27 @@ export const routes: Routes = [
           ).then((m) => m.CafeDetailScreenComponent),
       },
     ],
+  },
+  {
+    path: 'cart',
+    loadComponent: () =>
+      import('./cart/screens/cart-screen/cart-screen.component').then(
+        (m) => m.CartScreenComponent
+      ),
+    canActivate: [AuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+  },
+  {
+    path: 'account',
+    loadComponent: () =>
+      import('./account/screens/account-screen/account-screen.component').then(
+        (m) => m.AccountScreenComponent
+      ),
+    canActivate: [AuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
   },
 ];

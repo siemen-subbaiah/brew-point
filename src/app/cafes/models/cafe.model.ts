@@ -1,9 +1,9 @@
 export interface Cafe {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
   image: string;
   orderType: number[];
-  location: string;
-  name: string;
   isPopular: boolean;
-  description: string;
-  id: string;
 }

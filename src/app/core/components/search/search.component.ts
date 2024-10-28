@@ -1,5 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,12 +30,19 @@ import { Router } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnChanges {
   myControl = new FormControl('');
   @Input({ required: true }) options: { id: string; name: string }[] = [];
   filteredOptions!: Observable<{ id: string; name: string }[]>;
 
   constructor(private router: Router) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value || ''))
+    );
+  }
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(

@@ -21,12 +21,15 @@
   <app-search [options]="options" />
   }
   <h1 class="mat-headline-medium">Top Cafes</h1>
+  @if(!loading){
   <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
     @for(cafe of cafes;track cafe.id){
-    <app-cafe-list [cafe]="cafe" />
+    <app-cafe-list [cafe]="cafe" [isHome]="true" />
     }
   </div>
-  @if(breakPointService.isMobileScreen){
+  }@else{
+  <p>Loading...</p>
+  } @if(breakPointService.isMobileScreen){
   <button
     mat-fab
     extended

@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { Cafe } from '../../../cafes/models/cafe.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { TruncatePipe } from '../../../core/pipes/truncate.pipe';
 import { NgOptimizedImage } from '@angular/common';
+import { Product } from '../../models/cafe.model';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-cafe-list',
+  selector: 'app-product-list',
   standalone: true,
   imports: [
     NgOptimizedImage,
@@ -15,11 +16,22 @@ import { NgOptimizedImage } from '@angular/common';
     TruncatePipe,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
   ],
-  templateUrl: './cafe-list.component.html',
-  styleUrl: './cafe-list.component.scss',
+  templateUrl: './product-list.component.html',
+  styleUrl: './product-list.component.scss',
 })
-export class CafeListComponent {
-  @Input({ required: true }) cafe!: Cafe;
-  @Input({ required: true }) isHome!: boolean;
+export class ProductListComponent {
+  quantity: number = 0;
+  @Input({ required: true }) product!: Product;
+
+  onAddItem() {
+    this.quantity++;
+  }
+
+  onRemoveItem() {
+    if (this.quantity > 0) {
+      this.quantity--;
+    }
+  }
 }

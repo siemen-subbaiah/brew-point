@@ -23,6 +23,7 @@ import { SearchComponent } from '../../../core/components/search/search.componen
   styleUrl: './home-screen.component.scss',
 })
 export class HomeScreenComponent implements OnInit, OnDestroy {
+  loading!: boolean;
   cafes!: Cafe[];
   options: { id: string; name: string }[] = [];
   cafeSub = new Subscription();
@@ -36,6 +37,7 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
   }
 
   listPopularCafes() {
+    this.loading = true;
     this.cafeSub = this.cafeService.listPopularCafes().subscribe({
       next: (res) => {
         this.cafes = res;
@@ -43,6 +45,7 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
         this.cafeService.allCafes$.next(
           res.map((cafe) => ({ id: cafe.id, name: cafe.name }))
         );
+        this.loading = false;
       },
     });
   }

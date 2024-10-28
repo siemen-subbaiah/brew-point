@@ -2,12 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import {
   collection,
   collectionData,
+  doc,
   Firestore,
+  getDoc,
   query,
   where,
 } from '@angular/fire/firestore';
-import { Observable, Subject } from 'rxjs';
-import { Cafe } from '../models/cafe.model';
+import { from, Observable, Subject } from 'rxjs';
+import { Cafe, Product } from '../models/cafe.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,23 @@ export class CafeService {
     return collectionData(this.cafeCollection, { idField: 'id' }) as Observable<
       Cafe[]
     >;
+  }
+
+  getCafeById(id: string): Observable<Cafe> {
+    return from(
+      getDoc(doc(this.firestore, 'restaurants', id))
+        .then((res) => res.data() as Cafe)
+        .catch((err) => {
+          throw err;
+        })
+    );
+  }
+
+  listProductsByCafeId(id: string): Observable<Product[]> {
+    return collectionData(
+      collection(this.firestore, 'restaurants', id, 'products'),
+      { idField: 'id' }
+    ) as Observable<Product[]>;
   }
 
   listPopularCafes(): Observable<Cafe[]> {

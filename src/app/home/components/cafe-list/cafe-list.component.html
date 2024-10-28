@@ -16,6 +16,10 @@
     </p>
   </mat-card-content>
   <mat-card-actions align="end">
+    @if(isHome){
     <a [routerLink]="['cafes', cafe.id]" mat-button>Explore</a>
+    }@else{
+    <a [routerLink]="[cafe.id]" mat-button>Explore</a>
+    }
   </mat-card-actions>
 </mat-card>

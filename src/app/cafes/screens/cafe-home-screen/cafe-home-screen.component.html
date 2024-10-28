@@ -1,1 +1,24 @@
-<p>cafe-home-screen works!</p>
+<section>
+  @if(breakPointService.isMobileScreen){
+  <app-search [options]="options" />
+  }
+  <div class="flex justify-between items-baseline">
+    <h1 class="mat-headline-medium">All Cafes</h1>
+    <mat-chip-listbox aria-label="Filter cafes">
+      <mat-chip-option
+        [selected]="isPopular"
+        (selectionChange)="onFilterApplied($event)"
+        >Popular</mat-chip-option
+      >
+    </mat-chip-listbox>
+  </div>
+  @if(!loading){
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-x-2 gap-y-4">
+    @for(cafe of cafes | cafeFilter:isPopular;track cafe.id){
+    <app-cafe-list [cafe]="cafe" [isHome]="false" />
+    }
+  </div>
+  }@else{
+  <p>Loading...</p>
+  }
+</section>

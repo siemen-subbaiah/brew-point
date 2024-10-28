@@ -7,3 +7,12 @@ export interface Cafe {
   orderType: number[];
   isPopular: boolean;
 }
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  price: number;
+  productType: number;
+}

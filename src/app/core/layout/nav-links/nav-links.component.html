@@ -9,7 +9,13 @@
       routerLinkActive="active-link"
       [routerLinkActiveOptions]="{ exact: true }"
     >
+      @if(item.path==='cart'){
+      <mat-icon [matBadge]="cartService.cartItemCount">{{
+        item.icon
+      }}</mat-icon>
+      }@else{
       <mat-icon>{{ item.icon }}</mat-icon>
+      }
     </button>
     <p class="mat-label-medium">{{ item.label }}</p>
   </a>

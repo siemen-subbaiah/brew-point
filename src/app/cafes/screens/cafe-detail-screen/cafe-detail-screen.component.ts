@@ -98,8 +98,37 @@ export class CafeDetailScreenComponent implements OnInit {
     this.productsLoading = true;
     this.cafeService.listProductsByCafeId(id).subscribe({
       next: (res) => {
-        this.products = res;
-        console.log(this.products);
+        const serverData = res;
+        const cartLocalData = JSON.parse(
+          localStorage.getItem('cartItems')!
+        ) as Product[];
+        if (cartLocalData?.length) {
+          this.products = serverData.map((data) => {
+            const findProduct = cartLocalData.find(
+              (cart) => cart.id === data.id
+            );
+            if (findProduct) {
+              return {
+                ...data,
+                quantity: findProduct.quantity,
+                cafeId: this.cafeId,
+              };
+            }
+            return {
+              ...data,
+              quantity: 0,
+              cafeId: this.cafeId,
+            };
+          });
+        } else {
+          this.products = serverData.map((data) => {
+            return {
+              ...data,
+              quantity: 0,
+              cafeId: this.cafeId,
+            };
+          });
+        }
         this.productsLoading = false;
       },
     });

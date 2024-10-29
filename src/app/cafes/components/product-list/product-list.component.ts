@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
@@ -6,6 +6,7 @@ import { TruncatePipe } from '../../../core/pipes/truncate.pipe';
 import { NgOptimizedImage } from '@angular/common';
 import { Product } from '../../models/cafe.model';
 import { MatIconModule } from '@angular/material/icon';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -21,17 +22,31 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
-export class ProductListComponent {
-  quantity: number = 0;
+export class ProductListComponent implements OnInit {
+  isAllowedToCart = true;
   @Input({ required: true }) product!: Product;
+  @Input({ required: true }) cafeId!: string;
 
-  onAddItem() {
-    this.quantity++;
+  constructor(private cartService: CartService) {}
+
+  ngOnInit() {
+    const cartItems = JSON.parse(
+      localStorage.getItem('cartItems')!
+    ) as Product[];
+    if (cartItems?.length) {
+      this.isAllowedToCart = cartItems[0].cafeId === this.cafeId;
+    }
   }
 
-  onRemoveItem() {
-    if (this.quantity > 0) {
-      this.quantity--;
+  onAddItem(product: Product) {
+    product.quantity++;
+    this.cartService.addToCart(product);
+  }
+
+  onRemoveItem(product: Product) {
+    if (product.quantity > 0) {
+      product.quantity--;
+      this.cartService.removeFromCart(product.quantity, product);
     }
   }
 }

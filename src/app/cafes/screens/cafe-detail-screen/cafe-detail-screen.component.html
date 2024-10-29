@@ -62,7 +62,7 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-x-2 gap-y-4">
       @for(product of products | productFilter:selectedFilter;track product.id){
-      <app-product-list [product]="product" />
+      <app-product-list [product]="product" [cafeId]="cafeId" />
       }
     </div>
   </section>

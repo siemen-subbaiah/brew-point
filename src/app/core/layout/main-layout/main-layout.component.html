@@ -2,8 +2,18 @@
 <app-top-bar />
 }
 
-<main class="px-4 py-5 min-h-screen surface-container">
+<main
+  class="px-4 py-5 h-[83.5vh] overflow-auto surface-container rounded-[28px]"
+>
   <ng-content />
+  <div style="display: flex; align-items: center; justify-content: center">
+    @if(cartService.cartItems.length>=1){
+    <button mat-fab extended style="position: fixed; bottom: 30px">
+      <span> {{ cartService.cartItemCount }} Items added </span>
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+    }
+  </div>
 </main>
 
 @if(breakPointService.isMobileScreen && !isAvatarPage){

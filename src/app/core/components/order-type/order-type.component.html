@@ -1,0 +1,15 @@
+<button mat-fab extended [matMenuTriggerFor]="menu">
+  <mat-icon>add</mat-icon>
+  Discover
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="onOrderType(0)">
+    <span>Order For Table</span>
+  </button>
+  <button mat-menu-item (click)="onOrderType(1)">
+    <span>Schedule Your Pickup</span>
+  </button>
+  <button mat-menu-item (click)="onOrderType(2)">
+    <span>Book Your Table</span>
+  </button>
+</mat-menu>

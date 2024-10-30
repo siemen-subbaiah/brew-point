@@ -8,6 +8,7 @@ import { Cafe } from '../../../cafes/models/cafe.model';
 import { Subscription } from 'rxjs';
 import { BreakPointService } from '../../../core/services/break-point.service';
 import { SearchComponent } from '../../../core/components/search/search.component';
+import { OrderTypeComponent } from '../../../core/components/order-type/order-type.component';
 
 @Component({
   selector: 'app-home-screen',
@@ -18,6 +19,7 @@ import { SearchComponent } from '../../../core/components/search/search.componen
     MatMenuModule,
     CafeListComponent,
     SearchComponent,
+    OrderTypeComponent,
   ],
   templateUrl: './home-screen.component.html',
   styleUrl: './home-screen.component.scss',

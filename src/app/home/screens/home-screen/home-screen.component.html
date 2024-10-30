@@ -1,21 +1,7 @@
 <section class="relative">
   @if(breakPointService.isDesktopTabScreen){
   <div class="mb-4">
-    <button mat-fab extended [matMenuTriggerFor]="menu">
-      <mat-icon>add</mat-icon>
-      Discover
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <span>Order For Table</span>
-      </button>
-      <button mat-menu-item>
-        <span>Schedule Your Pickup</span>
-      </button>
-      <button mat-menu-item>
-        <span>Book Your Table</span>
-      </button>
-    </mat-menu>
+    <app-order-type />
   </div>
   } @if(breakPointService.isMobileScreen){
   <app-search [options]="options" />
@@ -30,25 +16,8 @@
   }@else{
   <p>Loading...</p>
   } @if(breakPointService.isMobileScreen){
-  <button
-    mat-fab
-    extended
-    [matMenuTriggerFor]="menu2"
-    style="position: fixed; right: 17px; bottom: 65px"
-  >
-    <mat-icon>add</mat-icon>
-    Discover
-  </button>
-  <mat-menu #menu2="matMenu" yPosition="above">
-    <button mat-menu-item>
-      <span>Order For Table</span>
-    </button>
-    <button mat-menu-item>
-      <span>Schedule Your Pickup</span>
-    </button>
-    <button mat-menu-item>
-      <span>Book Your Table</span>
-    </button>
-  </mat-menu>
+  <div style="position: fixed; right: 17px; bottom: 65px">
+    <app-order-type />
+  </div>
   }
 </section>

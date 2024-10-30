@@ -11,6 +11,7 @@ import {
 } from '@angular/material/chips';
 import { CafeFilterPipe } from '../../pipes/cafe-filter.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OrderType } from '../../../core/models/core.model';
 
 @Component({
   selector: 'app-cafe-home-screen',
@@ -24,6 +25,7 @@ export class CafeHomeScreenComponent {
   cafes!: Cafe[];
   options: { id: string; name: string }[] = [];
   isPopular!: boolean;
+  orderType!: number | null;
   cafeSub = new Subscription();
   queryParamSub = new Subscription();
 
@@ -31,24 +33,36 @@ export class CafeHomeScreenComponent {
     public breakPointService: BreakPointService,
     private cafeService: CafeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
     this.listCafes();
     this.queryParamSub = this.route.queryParamMap.subscribe((params) => {
       this.isPopular = params.get('isPopular') === 'true';
+      this.orderType = params.get('type') ? Number(params.get('type')) : null;
     });
+  }
+
+  get orderTypeTitle() {
+    return OrderType[this.orderType as number];
   }
 
   listCafes() {
     this.loading = true;
     this.cafeSub = this.cafeService.listCafes().subscribe({
       next: (res) => {
-        this.cafes = res;
+        if (this.orderType && this.orderType >= 0) {
+          this.cafes = res.filter((cafe) =>
+            cafe.orderType.includes(this.orderType as number),
+          );
+        } else {
+          this.cafes = res;
+        }
+
         this.options = res.map((cafe) => ({ id: cafe.id, name: cafe.name }));
         this.cafeService.allCafes$.next(
-          res.map((cafe) => ({ id: cafe.id, name: cafe.name }))
+          res.map((cafe) => ({ id: cafe.id, name: cafe.name })),
         );
         this.loading = false;
       },

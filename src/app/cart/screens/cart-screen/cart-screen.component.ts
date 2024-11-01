@@ -21,7 +21,7 @@ export class CartScreenComponent implements OnInit {
   payCounterLoading!: boolean;
   constructor(
     private bottomSheet: MatBottomSheet,
-    private cartService: CartService,
+    public cartService: CartService,
     private paymentService: PaymentService,
     private router: Router,
     private utilService: UtilService,

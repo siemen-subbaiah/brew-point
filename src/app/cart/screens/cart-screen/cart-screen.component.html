@@ -1,13 +1,16 @@
-<p>cart-screen works!</p>
 <p>{{ orderTypeTitle }}</p>
 
-<button [disabled]="payOnlineLoading" mat-button (click)="onPayOnline()">
-  Pay Online
-</button>
-<button [disabled]="payCounterLoading" mat-button (click)="onPayCounter()">
-  Pay on Counter
-</button>
+@if (cartService.cartItems.length >= 1) {
+  <div class="flex flex-col gap-5">
+    <button [disabled]="payOnlineLoading" mat-button (click)="onPayOnline()">
+      Pay Online
+    </button>
+    <button [disabled]="payCounterLoading" mat-button (click)="onPayCounter()">
+      Pay on Counter
+    </button>
 
-<button mat-flat-button (click)="onClearCart()">clear</button>
+    <button mat-flat-button (click)="onClearCart()">clear</button>
+  </div>
+}
 
-<p>use 4000 0035 6000 0008 as test card!</p>
+<p>use <b>4000 0035 6000 0008</b> as test card</p>

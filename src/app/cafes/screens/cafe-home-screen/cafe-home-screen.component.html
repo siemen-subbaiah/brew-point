@@ -2,11 +2,11 @@
   @if (breakPointService.isMobileScreen) {
     <app-search [options]="options" />
   }
-  <div class="flex justify-between items-baseline">
-    <div class="flex gap-2">
-      <h1 class="mat-headline-medium">All Cafes</h1>
+  <div class="flex justify-between items-baseline mb-2">
+    <div>
+      <h1 class="mat-headline-medium" style="margin: 0">All Cafes</h1>
       @if (orderType !== null) {
-        <h1 class="mat-headline-medium text-center">({{ orderTypeTitle }})</h1>
+        <h2 class="mat-title-medium text-center">{{ orderTypeTitle }}</h2>
       }
     </div>
     <mat-chip-listbox aria-label="Filter cafes">
@@ -24,6 +24,6 @@
       }
     </div>
   } @else {
-    <p>Loading...</p>
+    <app-spinner />
   }
 </section>

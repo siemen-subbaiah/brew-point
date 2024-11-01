@@ -42,6 +42,7 @@ export class BottomSheetComponent {
   }
 
   onSelectType(type: 0 | 1 | 2) {
+    localStorage.setItem('orderType', type.toString());
     this.orderType = type;
   }
 }

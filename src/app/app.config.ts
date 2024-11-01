@@ -8,6 +8,9 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
+import { provideNgxStripe } from 'ngx-stripe';
+import { provideHttpClient } from '@angular/common/http';
+import { provideLottieOptions } from 'ngx-lottie';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,10 +25,17 @@ export const appConfig: ApplicationConfig = {
         storageBucket: 'coffee-app-be9db.appspot.com',
         messagingSenderId: '3633024654',
         appId: '1:3633024654:web:4c07ad9347be2895e203df',
-      })
+      }),
     ),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    provideNgxStripe(
+      'pk_test_51Ilv6oSHhqDlROxhLr2DwR1ULEsF7spTfQL7ATDCasOHrEkuOtwuEmAKVPSEDzZhkduQE4LwGdUrlVJJBb8T4W3300Bki7GhKP',
+    ),
+    provideHttpClient(),
+    provideLottieOptions({
+      player: () => import('lottie-web'),
+    }),
   ],
 };

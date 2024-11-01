@@ -1,23 +1,15 @@
 <section class="relative">
-  @if(breakPointService.isDesktopTabScreen){
-  <div class="mb-4">
-    <app-order-type />
-  </div>
-  } @if(breakPointService.isMobileScreen){
-  <app-search [options]="options" />
+  @if (breakPointService.isMobileScreen) {
+    <app-search [options]="options" />
   }
   <h1 class="mat-headline-medium">Top Cafes</h1>
-  @if(!loading){
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-    @for(cafe of cafes;track cafe.id){
-    <app-cafe-list [cafe]="cafe" [isHome]="true" />
-    }
-  </div>
-  }@else{
-  <p>Loading...</p>
-  } @if(breakPointService.isMobileScreen){
-  <div style="position: fixed; right: 17px; bottom: 65px">
-    <app-order-type />
-  </div>
+  @if (!loading) {
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+      @for (cafe of cafes; track cafe.id) {
+        <app-cafe-list [cafe]="cafe" [isHome]="true" />
+      }
+    </div>
+  } @else {
+    <app-spinner />
   }
 </section>

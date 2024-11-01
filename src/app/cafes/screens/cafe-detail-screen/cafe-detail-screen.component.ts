@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CafeService } from '../../services/cafe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cafe, Product } from '../../models/cafe.model';
 import { ProductListComponent } from '../../components/product-list/product-list.component';
 import { NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MatChipListboxChange,
-  MatChipSelectionChange,
-  MatChipsModule,
-} from '@angular/material/chips';
+import { MatChipListboxChange, MatChipsModule } from '@angular/material/chips';
 import { Subscription } from 'rxjs';
 import { ProductFilterPipe } from '../../pipes/product-filter.pipe';
 import { BreakPointService } from '../../../core/services/break-point.service';
+import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
+import { OrderService } from '../../../orders/services/order.service';
 
 @Component({
   selector: 'app-cafe-detail-screen',
@@ -23,11 +21,12 @@ import { BreakPointService } from '../../../core/services/break-point.service';
     NgOptimizedImage,
     MatChipsModule,
     MatIconModule,
+    SpinnerComponent,
   ],
   templateUrl: './cafe-detail-screen.component.html',
   styleUrl: './cafe-detail-screen.component.scss',
 })
-export class CafeDetailScreenComponent implements OnInit {
+export class CafeDetailScreenComponent implements OnInit, OnDestroy {
   cafeId!: string;
   loading!: boolean;
   productsLoading!: boolean;
@@ -53,19 +52,25 @@ export class CafeDetailScreenComponent implements OnInit {
     },
   ];
   selectedFilter = -1;
+  isOrderPlaced!: boolean;
   queryParamSub = new Subscription();
+  cafeSub = new Subscription();
+  productsSub = new Subscription();
+  currentOrderSub = new Subscription();
 
   constructor(
     public breakPointService: BreakPointService,
     private cafeService: CafeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private orderService: OrderService,
   ) {}
 
   ngOnInit(): void {
     this.cafeId = this.route.snapshot.params['id'];
     this.getCafe(this.cafeId);
     this.listProducts(this.cafeId);
+    this.listCurrentOrders();
 
     this.queryParamSub = this.route.queryParamMap.subscribe((params) => {
       this.selectedFilter = params.get('type')
@@ -76,7 +81,7 @@ export class CafeDetailScreenComponent implements OnInit {
 
   getCafe(id: string) {
     this.loading = true;
-    this.cafeService.getCafeById(id).subscribe({
+    this.cafeSub = this.cafeService.getCafeById(id).subscribe({
       next: (res) => {
         if (res) {
           this.cafe = res;
@@ -96,16 +101,16 @@ export class CafeDetailScreenComponent implements OnInit {
 
   listProducts(id: string) {
     this.productsLoading = true;
-    this.cafeService.listProductsByCafeId(id).subscribe({
+    this.productsSub = this.cafeService.listProductsByCafeId(id).subscribe({
       next: (res) => {
         const serverData = res;
         const cartLocalData = JSON.parse(
-          localStorage.getItem('cartItems')!
+          localStorage.getItem('cartItems')!,
         ) as Product[];
         if (cartLocalData?.length) {
           this.products = serverData.map((data) => {
             const findProduct = cartLocalData.find(
-              (cart) => cart.id === data.id
+              (cart) => cart.id === data.id,
             );
             if (findProduct) {
               return {
@@ -134,6 +139,18 @@ export class CafeDetailScreenComponent implements OnInit {
     });
   }
 
+  listCurrentOrders() {
+    this.currentOrderSub = this.orderService.listCurrentOrder().subscribe({
+      next: (res) => {
+        if (res.length >= 1) {
+          this.isOrderPlaced = true;
+        } else {
+          this.isOrderPlaced = false;
+        }
+      },
+    });
+  }
+
   onFilterChange(e: MatChipListboxChange) {
     this.selectedFilter = +e.value;
     this.router.navigate(['/cafes', this.cafeId], {
@@ -142,5 +159,12 @@ export class CafeDetailScreenComponent implements OnInit {
       },
       queryParamsHandling: 'merge',
     });
+  }
+
+  ngOnDestroy() {
+    this.queryParamSub.unsubscribe();
+    this.cafeSub.unsubscribe();
+    this.productsSub.unsubscribe();
+    this.currentOrderSub.unsubscribe();
   }
 }

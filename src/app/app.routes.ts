@@ -10,7 +10,7 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () =>
       import('./core/auth/screens/login-screen/login-screen.component').then(
-        (m) => m.LoginScreenComponent
+        (m) => m.LoginScreenComponent,
       ),
     canActivate: [loggedInGuardGuard],
   },
@@ -18,7 +18,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./home/screens/home-screen/home-screen.component').then(
-        (m) => m.HomeScreenComponent
+        (m) => m.HomeScreenComponent,
       ),
     canActivate: [AuthGuard],
     data: {
@@ -29,7 +29,7 @@ export const routes: Routes = [
     path: 'avatar',
     loadComponent: () =>
       import('./avatar/screens/avatar-screen/avatar-screen.component').then(
-        (m) => m.AvatarScreenComponent
+        (m) => m.AvatarScreenComponent,
       ),
     canActivate: [AuthGuard, avatarGuard],
     data: {
@@ -63,7 +63,7 @@ export const routes: Routes = [
     path: 'cart',
     loadComponent: () =>
       import('./cart/screens/cart-screen/cart-screen.component').then(
-        (m) => m.CartScreenComponent
+        (m) => m.CartScreenComponent,
       ),
     canActivate: [AuthGuard],
     data: {
@@ -71,10 +71,48 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'success',
+    loadComponent: () =>
+      import('./payment/screens/success/success.component').then(
+        (m) => m.SuccessComponent,
+      ),
+    canActivate: [AuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+  },
+  {
+    path: 'cancel',
+    loadComponent: () =>
+      import('./payment/screens/cancel/cancel.component').then(
+        (m) => m.CancelComponent,
+      ),
+    canActivate: [AuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+  },
+  {
+    path: 'order',
+    canActivate: [AuthGuard],
+    data: {
+      authGuardPipe: redirectUnauthorizedToLogin,
+    },
+    children: [
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('./orders/screens/order-screen/order-screen.component').then(
+            (m) => m.OrderScreenComponent,
+          ),
+      },
+    ],
+  },
+  {
     path: 'account',
     loadComponent: () =>
       import('./account/screens/account-screen/account-screen.component').then(
-        (m) => m.AccountScreenComponent
+        (m) => m.AccountScreenComponent,
       ),
     canActivate: [AuthGuard],
     data: {

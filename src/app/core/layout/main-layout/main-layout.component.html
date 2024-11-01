@@ -12,13 +12,26 @@
         (click)="onOpenBottomSheet()"
         mat-fab
         extended
-        style="position: fixed; bottom: 30px"
+        style="position: fixed"
+        [style.bottom]="breakPointService.isDesktopTabScreen ? '30px' : '80px'"
       >
         <span>
-          {{ cartService.cartItemCount }} Items added {{ orderTypeTitle }}
+          {{ cartService.cartItemCount }}
+          {{ cartService.cartItemCount === 1 ? "Item" : "Items" }} added
         </span>
         <mat-icon>shopping_cart</mat-icon>
       </button>
+    }
+    @if (currentOrder.length >= 1) {
+      <a
+        [routerLink]="['order', currentOrderId]"
+        mat-fab
+        extended
+        style="position: fixed"
+        [style.bottom]="breakPointService.isDesktopTabScreen ? '30px' : '80px'"
+      >
+        Order is placed, check status!
+      </a>
     }
   </div>
 </main>

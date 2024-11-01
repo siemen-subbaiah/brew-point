@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Items already in cart</h2>
+<mat-dialog-content
+  >Your cart contains items from another cafe. Would you like to reset your cart
+  for adding items from this cafe?
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>NO</button>
+  <button mat-flat-button (click)="onStartFresh()">YES,START FRESH</button>
+</mat-dialog-actions>

@@ -17,21 +17,28 @@
   </mat-card-content>
   <mat-card-actions align="end" class="flex justify-end mt-auto">
     <div class="cart-btn">
-      <button
-        [disabled]="!isAllowedToCart"
-        (click)="onRemoveItem(product)"
-        mat-icon-button
-      >
-        <mat-icon class="icon-size">remove</mat-icon>
-      </button>
-      <span>{{ product.quantity }}</span>
-      <button
-        [disabled]="!isAllowedToCart"
-        (click)="onAddItem(product)"
-        mat-icon-button
-      >
-        <mat-icon class="icon-size">add</mat-icon>
-      </button>
+      @if (product.quantity) {
+        <button (click)="onRemoveItem(product)" mat-icon-button>
+          <mat-icon class="icon-size">remove</mat-icon>
+        </button>
+        <span>{{ product.quantity }}</span>
+        <button (click)="onAddItem(product)" mat-icon-button>
+          <mat-icon class="icon-size">add</mat-icon>
+        </button>
+      } @else {
+        <div
+          matTooltip="A current order is placed"
+          [matTooltipDisabled]="!isOrderPlaced"
+        >
+          <button
+            mat-button
+            [disabled]="isOrderPlaced"
+            (click)="onAddItem(product)"
+          >
+            Add
+          </button>
+        </div>
+      }
     </div>
   </mat-card-actions>
 </mat-card>

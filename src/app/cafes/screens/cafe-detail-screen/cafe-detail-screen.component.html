@@ -1,74 +1,84 @@
 <section>
-  @if(!loading){ @if(noData){
-  <p>Invalid ID</p>
-  } @if(cafe){
-
-  <div class="flex flex-col md:flex-row gap-5 items-center">
-    @if(breakPointService.isDesktopTabScreen){
-    <img
-      mat-card-image
-      [ngSrc]="cafe.image"
-      height="300"
-      width="500"
-      [alt]="cafe.name"
-      class="rounded-2xl"
-    />
-    }@else {
-    <img
-      mat-card-image
-      [ngSrc]="cafe.image"
-      height="200"
-      width="350"
-      [alt]="cafe.name"
-      class="rounded-2xl"
-    />
+  @if (!loading) {
+    @if (noData) {
+      <p>Invalid ID</p>
     }
-    <div>
-      <h1
-        [class]="
-          breakPointService.isDesktopTabScreen
-            ? 'mat-display-medium'
-            : 'mat-headline-medium'
-        "
-      >
-        {{ cafe.name }}
-      </h1>
-      <mat-icon>location_on</mat-icon>
-      <span class="mat-body-large relative bottom-[5px]">{{
-        cafe.location
-      }}</span>
-
-      <p class="mat-body-medium">{{ cafe.description }}</p>
-    </div>
-  </div>
-
-  @if(!productsLoading){
-  <section class="my-5">
-    <div class="flex flex-col md:flex-row justify-between items-baseline">
-      <h2 class="mat-headline-medium">Choose items</h2>
-      <mat-chip-listbox
-        class="mb-4 md:mb-0"
-        (change)="onFilterChange($event)"
-        aria-label="Filter products"
-      >
-        @for(filter of filters;track filter.id){
-        <mat-chip-option
-          [selected]="filter.id === selectedFilter"
-          [value]="filter.id"
-          >{{ filter.name }}</mat-chip-option
-        >
+    @if (cafe) {
+      <div class="flex flex-col md:flex-row gap-5 items-center">
+        @if (breakPointService.isDesktopTabScreen) {
+          <img
+            mat-card-image
+            [ngSrc]="cafe.image"
+            height="300"
+            width="500"
+            [alt]="cafe.name"
+            class="rounded-2xl"
+          />
+        } @else {
+          <img
+            mat-card-image
+            [ngSrc]="cafe.image"
+            height="200"
+            width="350"
+            [alt]="cafe.name"
+            class="rounded-2xl"
+          />
         }
-      </mat-chip-listbox>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-x-2 gap-y-4">
-      @for(product of products | productFilter:selectedFilter;track product.id){
-      <app-product-list [product]="product" [cafeId]="cafeId" />
+        <div>
+          <h1
+            [class]="
+              breakPointService.isDesktopTabScreen
+                ? 'mat-display-medium'
+                : 'mat-headline-medium'
+            "
+          >
+            {{ cafe.name }}
+          </h1>
+          <mat-icon>location_on</mat-icon>
+          <span class="mat-body-large relative bottom-[5px]">{{
+            cafe.location
+          }}</span>
+
+          <p class="mat-body-medium">{{ cafe.description }}</p>
+        </div>
+      </div>
+
+      @if (!productsLoading) {
+        <section class="my-5">
+          <div class="flex flex-col md:flex-row justify-between items-baseline">
+            <h2 class="mat-headline-medium">Choose items</h2>
+            <mat-chip-listbox
+              class="mb-4 md:mb-0"
+              (change)="onFilterChange($event)"
+              aria-label="Filter products"
+            >
+              @for (filter of filters; track filter.id) {
+                <mat-chip-option
+                  [selected]="filter.id === selectedFilter"
+                  [value]="filter.id"
+                  >{{ filter.name }}</mat-chip-option
+                >
+              }
+            </mat-chip-listbox>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-x-2 gap-y-4">
+            @for (
+              product of products | productFilter: selectedFilter;
+              track product.id
+            ) {
+              <app-product-list
+                [product]="product"
+                [cafeId]="cafeId"
+                [isOrderPlaced]="isOrderPlaced"
+              />
+            }
+          </div>
+        </section>
+      } @else {
+        <app-spinner />
       }
-    </div>
-  </section>
-  }@else{
-  <p>Loading products...</p>
-  } } }@else{
-  <p>Loading...</p>
+    }
+  } @else {
+    <app-spinner />
   }
 </section>

@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Product } from '../../cafes/models/cafe.model';
+import { collection, Firestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
+  firestore = inject(Firestore);
+  orderCollection = collection(this.firestore, 'orders');
   cartItems: Product[] = localStorage.getItem('cartItems')
     ? JSON.parse(localStorage.getItem('cartItems')!)
     : [];
@@ -29,7 +32,7 @@ export class CartService {
       this.cartItems = [...this.cartItems, { ...product, quantity: 1 }];
     }
 
-    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    this.updateLocalStorage();
   }
 
   removeFromCart(quantity: number, product: Product) {
@@ -43,6 +46,15 @@ export class CartService {
         return cart;
       });
     }
+    this.updateLocalStorage();
+  }
+
+  clearCart() {
+    this.cartItems = [];
+    this.updateLocalStorage();
+  }
+
+  updateLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
   }
 }

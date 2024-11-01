@@ -12,11 +12,18 @@ import {
 import { CafeFilterPipe } from '../../pipes/cafe-filter.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderType } from '../../../core/models/core.model';
+import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-cafe-home-screen',
   standalone: true,
-  imports: [SearchComponent, CafeListComponent, CafeFilterPipe, MatChipsModule],
+  imports: [
+    SearchComponent,
+    CafeListComponent,
+    CafeFilterPipe,
+    MatChipsModule,
+    SpinnerComponent,
+  ],
   templateUrl: './cafe-home-screen.component.html',
   styleUrl: './cafe-home-screen.component.scss',
 })

@@ -8,18 +8,18 @@ import { Cafe } from '../../../cafes/models/cafe.model';
 import { Subscription } from 'rxjs';
 import { BreakPointService } from '../../../core/services/break-point.service';
 import { SearchComponent } from '../../../core/components/search/search.component';
-import { OrderTypeComponent } from '../../../core/components/order-type/order-type.component';
+import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-home-screen',
   standalone: true,
   imports: [
+    CafeListComponent,
+    SearchComponent,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    CafeListComponent,
-    SearchComponent,
-    OrderTypeComponent,
+    SpinnerComponent,
   ],
   templateUrl: './home-screen.component.html',
   styleUrl: './home-screen.component.scss',
@@ -31,7 +31,7 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
   cafeSub = new Subscription();
   constructor(
     private cafeService: CafeService,
-    public breakPointService: BreakPointService
+    public breakPointService: BreakPointService,
   ) {}
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
         this.cafes = res;
         this.options = res.map((cafe) => ({ id: cafe.id, name: cafe.name }));
         this.cafeService.allCafes$.next(
-          res.map((cafe) => ({ id: cafe.id, name: cafe.name }))
+          res.map((cafe) => ({ id: cafe.id, name: cafe.name })),
         );
         this.loading = false;
       },

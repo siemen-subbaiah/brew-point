@@ -1,9 +1,14 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import {
+  MAT_BOTTOM_SHEET_DATA,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
+import { Router } from '@angular/router';
+import { BreakPointService } from '../../services/break-point.service';
 
 @Component({
   selector: 'app-bottom-sheet',
@@ -33,7 +38,12 @@ export class BottomSheetComponent {
   orderType!: number | null;
   tableId!: number;
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: number | null) {
+  constructor(
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: number | null,
+    private bottomSheetRef: MatBottomSheetRef<BottomSheetComponent>,
+    public breakPointService: BreakPointService,
+    private router: Router,
+  ) {
     this.orderType = data;
   }
 
@@ -44,5 +54,10 @@ export class BottomSheetComponent {
   onSelectType(type: 0 | 1 | 2) {
     localStorage.setItem('orderType', type.toString());
     this.orderType = type;
+  }
+
+  proccedToCart() {
+    this.router.navigate(['/cart']);
+    this.bottomSheetRef.dismiss();
   }
 }

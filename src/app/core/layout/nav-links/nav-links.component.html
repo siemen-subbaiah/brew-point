@@ -1,23 +1,23 @@
 <div class="flex gap-12 mt-2">
-  @for(item of navLinks; track item.id){
-  <a
-    class="flex flex-col items-center no-underline link"
-    [routerLink]="[item.path]"
-  >
-    <button
-      mat-icon-button
-      routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{ exact: true }"
+  @for (item of navLinks; track item.id) {
+    <a
+      class="flex flex-col items-center no-underline link"
+      [routerLink]="[item.path]"
     >
-      @if(item.path==='cart'){
-      <mat-icon [matBadge]="cartService.cartItemCount">{{
-        item.icon
-      }}</mat-icon>
-      }@else{
-      <mat-icon>{{ item.icon }}</mat-icon>
-      }
-    </button>
-    <p class="mat-label-medium">{{ item.label }}</p>
-  </a>
+      <button
+        mat-icon-button
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        @if (item.path === "cart") {
+          <mat-icon [matBadge]="cartService.cartItemCount">{{
+            item.icon
+          }}</mat-icon>
+        } @else {
+          <mat-icon>{{ item.icon }}</mat-icon>
+        }
+      </button>
+      <p class="mat-label-medium">{{ item.label }}</p>
+    </a>
   }
 </div>

@@ -49,6 +49,10 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     return this.router.url.includes('avatar');
   }
 
+  get isCartPage() {
+    return this.router.url.includes('cart');
+  }
+
   listCurrentOrders() {
     this.orderSub = this.orderService.listCurrentOrder().subscribe({
       next: (res) => {

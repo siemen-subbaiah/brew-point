@@ -7,21 +7,34 @@ import { UtilService } from '../../../core/services/util.service';
 import { OrderType } from '../../../core/models/core.model';
 import { Router } from '@angular/router';
 import { PaymentService } from '../../../payment/services/payment.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import { MatHint } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-cart-screen',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatRadioModule,
+    MatHint,
+    MatIconModule,
+  ],
   templateUrl: './cart-screen.component.html',
   styleUrl: './cart-screen.component.scss',
 })
 export class CartScreenComponent implements OnInit {
   orderType!: number | null;
-  payOnlineLoading!: boolean;
-  payCounterLoading!: boolean;
+  paymentMethod!: number;
+  payLoading!: boolean;
+  testCardNumber = '4000 0035 6000 0008';
   constructor(
     private bottomSheet: MatBottomSheet,
     public cartService: CartService,
+    private clipboard: Clipboard,
     private paymentService: PaymentService,
     private router: Router,
     private utilService: UtilService,
@@ -41,8 +54,29 @@ export class CartScreenComponent implements OnInit {
     return this.orderType !== null ? OrderType[this.orderType as number] : '';
   }
 
+  copyCardNumber() {
+    this.clipboard.copy(this.testCardNumber);
+    this.utilService.openSnackBar(`Copied card number to clipboard`);
+  }
+
+  onSelectPaymentMethod(e: MatRadioChange) {
+    this.paymentMethod = +e.value;
+  }
+
+  onPlaceOrder() {
+    if (this.paymentMethod === 1) {
+      this.onPayOnline();
+    } else {
+      this.onPayCounter();
+    }
+  }
+
+  onCancelOrder() {
+    this.router.navigate(['/']);
+  }
+
   onPayOnline() {
-    this.payOnlineLoading = true;
+    this.payLoading = true;
     this.paymentService
       .stripeCheckout({
         products: this.cartService.cartItems,
@@ -56,17 +90,17 @@ export class CartScreenComponent implements OnInit {
           }
         },
         error: (e) => {
-          this.payOnlineLoading = false;
+          this.payLoading = false;
           console.log(e);
         },
         complete: () => {
-          this.payOnlineLoading = false;
+          this.payLoading = false;
         },
       });
   }
 
   onPayCounter() {
-    this.payCounterLoading = true;
+    this.payLoading = true;
     this.paymentService
       .payCounter({
         isPaid: true,
@@ -87,11 +121,11 @@ export class CartScreenComponent implements OnInit {
         },
         error: (e) => {
           console.log(e);
-          this.payCounterLoading = false;
+          this.payLoading = false;
           console.log('error');
         },
         complete: () => {
-          this.payCounterLoading = false;
+          this.payLoading = false;
           console.log('order placed!');
         },
       });
@@ -100,5 +134,6 @@ export class CartScreenComponent implements OnInit {
   onClearCart() {
     this.cartService.clearCart();
     localStorage.removeItem('orderType');
+    this.orderType = null;
   }
 }

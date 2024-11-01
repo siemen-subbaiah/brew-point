@@ -19,6 +19,12 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    const darkTheme = localStorage.getItem('dark-theme');
+
+    if (darkTheme) {
+      document.body.classList.add('dark-theme');
+    }
+
     this.authSub = this.authService.user$.subscribe({
       next: (res: User) => {
         if (res) {

@@ -1,16 +1,44 @@
-<p>{{ orderTypeTitle }}</p>
-
 @if (cartService.cartItems.length >= 1) {
-  <div class="flex flex-col gap-5">
-    <button [disabled]="payOnlineLoading" mat-button (click)="onPayOnline()">
-      Pay Online
-    </button>
-    <button [disabled]="payCounterLoading" mat-button (click)="onPayCounter()">
-      Pay on Counter
-    </button>
-
-    <button mat-flat-button (click)="onClearCart()">clear</button>
-  </div>
+  <section class="grid grid-cols-1 md:grid-cols-2">
+    <div>
+      <h2 class="mat-title-large">Order summary</h2>
+      <p>{{ orderTypeTitle }}</p>
+      <button mat-flat-button (click)="onClearCart()">clear cart</button>
+    </div>
+    <div>
+      <h2 class="mat-title-large">Select payment method</h2>
+      <mat-radio-group (change)="onSelectPaymentMethod($event)">
+        <mat-card appearance="outlined">
+          <mat-radio-button value="1">Pay Online</mat-radio-button>
+        </mat-card>
+        <div class="flex items-center">
+          <mat-hint class="mat-body-small ml-1"
+            >Please use {{ testCardNumber }} as a test card</mat-hint
+          >
+          <mat-icon
+            class="text-sm mt-1 ml-1 cursor-pointer"
+            (click)="copyCardNumber()"
+            >content_copy</mat-icon
+          >
+        </div>
+        <mat-card appearance="outlined" class="mt-3">
+          <mat-radio-button value="2">Pay at counter</mat-radio-button>
+        </mat-card>
+      </mat-radio-group>
+      <div class="flex gap-2 mt-5 justify-end">
+        <button mat-button (click)="onCancelOrder()">Cancel</button>
+        <button
+          mat-flat-button
+          [disabled]="!paymentMethod || payLoading"
+          (click)="onPlaceOrder()"
+        >
+          Place order
+        </button>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section>
+    <p>Need empty state here!</p>
+  </section>
 }
-
-<p>use <b>4000 0035 6000 0008</b> as test card</p>

@@ -10,9 +10,9 @@
     />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @for (option of filteredOptions | async; track option) {
-      <mat-option (onSelectionChange)="onSelectCafe(option.id)">{{
-        option.name
-      }}</mat-option>
+        <mat-option (onSelectionChange)="onSelectCafe(option.id)">{{
+          option.name
+        }}</mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>

@@ -2,33 +2,65 @@
   @if (orderType !== null && orderType >= 0) {
     @switch (orderType) {
       @case (0) {
-        <div class="flex flex-col justify-center">
+        <div>
           <h1 class="mat-title-large pt-2 text-center">Choose your table</h1>
-          <mat-form-field appearance="outline">
-            <mat-label>Choose Table</mat-label>
-            <mat-select>
-              @for (table of tables; track table.id) {
-                <mat-option
-                  (onSelectionChange)="onTableChange($event)"
-                  [value]="table.id"
-                  >{{ table.name }} ({{ table.info }})</mat-option
-                >
-              }
-            </mat-select>
-          </mat-form-field>
-          <button mat-flat-button [disabled]="!tableId">Proceed</button>
+          <div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Choose Table</mat-label>
+              <mat-select>
+                @for (table of tables; track table.id) {
+                  <mat-option
+                    (onSelectionChange)="onTableChange($event)"
+                    [value]="table.id"
+                    >{{ table.name }} ({{ table.info }})</mat-option
+                  >
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-button (click)="orderType = null">
+              Choose other option
+            </button>
+          </div>
+          <div class="flex justify-center">
+            <button
+              mat-flat-button
+              [disabled]="!tableId"
+              (click)="proccedToCart()"
+            >
+              Proceed
+            </button>
+          </div>
         </div>
       }
       @case (1) {
-        <h1 class="mat-title-large">Schedule Your Pickup       </h1>
+        <h1 class="mat-title-large pt-2 text-center">Schedule Your Pickup</h1>
+        <div>
+          <button mat-button (click)="orderType = null">
+            Choose other option
+          </button>
+        </div>
       }
       @case (2) {
-        <h1 class="mat-title-large">Book Your Table</h1>
+        <h1 class="mat-title-large pt-2 text-center">Book Your Table</h1>
+        <div>
+          <button mat-button (click)="orderType = null">
+            Choose other option
+          </button>
+        </div>
       }
     }
   } @else {
     <div>
-      <h1 class="mat-title-large pt-2 text-center">
+      <h1
+        [class]="
+          breakPointService.isDesktopTabScreen
+            ? 'mat-title-large'
+            : 'mat-title-medium'
+        "
+        class="pt-2 text-center"
+      >
         What do you want to do with your order
       </h1>
       <mat-nav-list>

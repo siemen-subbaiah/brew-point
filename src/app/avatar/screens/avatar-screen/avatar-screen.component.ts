@@ -5,11 +5,12 @@ import { Subscription } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { NgOptimizedImage } from '@angular/common';
+import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-avatar-screen',
   standalone: true,
-  imports: [RouterLink, NgOptimizedImage, MatButtonModule],
+  imports: [RouterLink, NgOptimizedImage, MatButtonModule, SpinnerComponent],
   templateUrl: './avatar-screen.component.html',
   styleUrl: './avatar-screen.component.scss',
 })
@@ -22,7 +23,7 @@ export class AvatarScreenComponent implements OnInit, OnDestroy {
   constructor(
     private avatarService: AvatarService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {

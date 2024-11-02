@@ -4,27 +4,29 @@
   </div>
   <section class="flex flex-col items-center justify-center h-[90vh]">
     <h1 class="mat-display-small text-center">Select Your Coffee Avatar</h1>
-    <div
-      class="flex flex-wrap items-center justify-center gap-5 avatar-container rounded-md p-8"
-    >
-      @if(avatars){ @for(avatar of avatars;track avatar){
-      <img
-        [ngSrc]="avatar"
-        alt="avatar"
-        height="120"
-        width="120"
-        class="rounded-full cursor-pointer"
-        (click)="onSelectAvatar(avatar)"
-        [style.border]="
-          selectedAvatar === avatar
-            ? '2px solid var(--sys-outline-variant)'
-            : null
-        "
-      />
-      } }@else {
-      <p>loading...</p>
-      }
-    </div>
+    @if (avatars) {
+      <div
+        class="flex flex-wrap items-center justify-center gap-5 avatar-container rounded-md p-8"
+      >
+        @for (avatar of avatars; track avatar) {
+          <img
+            [ngSrc]="avatar"
+            alt="avatar"
+            height="120"
+            width="120"
+            class="rounded-full cursor-pointer"
+            (click)="onSelectAvatar(avatar)"
+            [style.border]="
+              selectedAvatar === avatar
+                ? '2px solid var(--sys-outline-variant)'
+                : null
+            "
+          />
+        }
+      </div>
+    } @else {
+      <app-spinner />
+    }
     <div class="flex w-full justify-end mt-4">
       <button
         mat-flat-button

@@ -34,11 +34,11 @@ export class AuthService {
 
   isAvatarExists(photoURL: string | null) {
     if (!photoURL) {
-      return true;
-    } else if (photoURL.includes('googleusercontent')) {
-      return true;
-    } else {
       return false;
+    } else if (photoURL.includes('googleusercontent')) {
+      return false;
+    } else {
+      return true;
     }
   }
 

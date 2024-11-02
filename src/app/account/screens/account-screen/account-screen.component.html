@@ -3,6 +3,18 @@
     isDarkTheme ? "Light" : "Dark"
   }}</mat-slide-toggle>
   <div class="mt-3">
-    <button mat-flat-button (click)="onLogout()">Logout</button>
+    {{ photoURL }}
+    <img
+      mat-card-image
+      src="photoURL"
+      alt="avatar"
+      height="120"
+      width="120"
+      class="rounded-full"
+    />
+
+    <div>
+      <button mat-flat-button (click)="onLogout()">Logout</button>
+    </div>
   </div>
 </section>

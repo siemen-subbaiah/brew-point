@@ -24,6 +24,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
+    title: 'CoffeeApp | Home',
   },
   {
     path: 'avatar',
@@ -35,6 +36,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
+    title: 'CoffeeApp | Avatar',
   },
   {
     path: 'cafes',
@@ -42,6 +44,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
+    title: 'CoffeeApp | Cafes',
     children: [
       {
         path: '',
@@ -69,6 +72,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
+    title: 'CoffeeApp | Cart',
   },
   {
     path: 'success',
@@ -80,6 +84,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
+    title: 'CoffeeApp | Success',
   },
   {
     path: 'cancel',
@@ -91,6 +96,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
+    title: 'CoffeeApp | Cancel',
   },
   {
     path: 'order',
@@ -107,6 +113,7 @@ export const routes: Routes = [
           ),
       },
     ],
+    title: 'CoffeeApp | Order',
   },
   {
     path: 'account',
@@ -118,5 +125,6 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
+    title: 'CoffeeApp | Account',
   },
 ];

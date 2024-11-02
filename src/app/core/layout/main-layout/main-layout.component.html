@@ -7,7 +7,7 @@
 >
   <ng-content />
   <div style="display: flex; align-items: center; justify-content: center">
-    @if (cartService.cartItems.length >= 1 && !isCartPage) {
+    @if (cartService.cartItems.length >= 1 && !isCartPage && !isAvatarPage) {
       <button
         (click)="onOpenBottomSheet()"
         mat-fab

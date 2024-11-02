@@ -7,7 +7,7 @@ export const avatarGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const photoURL = localStorage.getItem('photoURL');
 
-  if (!authService.isAvatarExists(photoURL)) {
+  if (authService.isAvatarExists(photoURL)) {
     router.navigate(['/']);
     return false;
   }

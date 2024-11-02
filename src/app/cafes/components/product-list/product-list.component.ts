@@ -30,8 +30,8 @@ import { Subscription } from 'rxjs';
 export class ProductListComponent {
   isAllowedToCart = true;
   @Input({ required: true }) product!: Product;
-  @Input({ required: true }) cafeId!: string;
-  @Input({ required: true }) isOrderPlaced!: boolean;
+  @Input() cafeId!: string;
+  @Input() isOrderPlaced!: boolean;
   currentOrderSub = new Subscription();
 
   constructor(
@@ -67,11 +67,13 @@ export class ProductListComponent {
   }
 
   checkAllowedToCart() {
-    const cartItems = JSON.parse(
-      localStorage.getItem('cartItems')!,
-    ) as Product[];
-    if (cartItems?.length) {
-      return cartItems[0].cafeId === this.cafeId;
+    if (this.cafeId) {
+      const cartItems = JSON.parse(
+        localStorage.getItem('cartItems')!,
+      ) as Product[];
+      if (cartItems?.length) {
+        return cartItems[0].cafeId === this.cafeId;
+      }
     }
     return true;
   }

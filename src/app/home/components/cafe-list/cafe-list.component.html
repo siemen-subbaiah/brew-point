@@ -1,4 +1,4 @@
-<mat-card appearance="outlined">
+<mat-card appearance="outlined" class="cafe-card">
   <img
     mat-card-image
     [ngSrc]="cafe.image"
@@ -16,10 +16,10 @@
     </p>
   </mat-card-content>
   <mat-card-actions align="end">
-    @if(isHome){
-    <a [routerLink]="['cafes', cafe.id]" mat-button>Explore</a>
-    }@else{
-    <a [routerLink]="[cafe.id]" mat-button>Explore</a>
+    @if (isHome) {
+      <a [routerLink]="['cafes', cafe.id]" mat-button>Explore</a>
+    } @else {
+      <a [routerLink]="[cafe.id]" mat-button>Explore</a>
     }
   </mat-card-actions>
 </mat-card>

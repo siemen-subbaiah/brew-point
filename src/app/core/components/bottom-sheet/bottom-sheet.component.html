@@ -7,7 +7,7 @@
           <div>
             <mat-form-field appearance="outline" class="w-full">
               <mat-label>Choose Table</mat-label>
-              <mat-select>
+              <mat-select [(ngModel)]="tableId">
                 @for (table of tables; track table.id) {
                   <mat-option
                     (onSelectionChange)="onTableChange($event)"
@@ -19,7 +19,7 @@
             </mat-form-field>
           </div>
           <div>
-            <button mat-button (click)="orderType = null">
+            <button mat-button (click)="resetOptions()">
               Choose other option
             </button>
           </div>
@@ -37,7 +37,7 @@
       @case (1) {
         <h1 class="mat-title-large pt-2 text-center">Schedule Your Pickup</h1>
         <div>
-          <button mat-button (click)="orderType = null">
+          <button mat-button (click)="resetOptions()">
             Choose other option
           </button>
         </div>
@@ -45,7 +45,7 @@
       @case (2) {
         <h1 class="mat-title-large pt-2 text-center">Book Your Table</h1>
         <div>
-          <button mat-button (click)="orderType = null">
+          <button mat-button (click)="resetOptions()">
             Choose other option
           </button>
         </div>

@@ -1,9 +1,44 @@
 @if (cartService.cartItems.length >= 1) {
-  <section class="grid grid-cols-1 md:grid-cols-2">
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-2">
     <div>
-      <h2 class="mat-title-large">Order summary</h2>
-      <p>{{ orderTypeTitle }}</p>
-      <button mat-flat-button (click)="onClearCart()">clear cart</button>
+      <div class="flex justify-between">
+        <div>
+          <h2 class="mat-title-large">Order summary</h2>
+          <div class="flex gap-2">
+            <p>{{ orderTypeTitle }}</p>
+            @if (tableId) {
+              <p>{{ tableType }}</p>
+            }
+          </div>
+        </div>
+        <button mat-button (click)="onClearCart()">clear cart</button>
+      </div>
+      <div
+        class="h-[52vh] grid grid-cols-1 md:grid-cols-2 gap-2 overflow-auto no-scrollbar"
+      >
+        @for (product of cartItemsWithCopies; track product.id) {
+          <app-product-list [product]="product" />
+        }
+      </div>
+      <mat-card class="mt-2" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Bill Details</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="flex justify-between items-center">
+            <p>Item Total</p>
+            <p>₹{{ cartService.cartTotalPrice }}</p>
+          </div>
+          <div class="flex justify-between items-center">
+            <p>Additional Charges</p>
+            <p>₹15</p>
+          </div>
+          <div class="flex justify-between items-center">
+            <p>To Pay</p>
+            <p>₹{{ cartService.cartTotalPrice + 15 }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div>
       <h2 class="mat-title-large">Select payment method</h2>

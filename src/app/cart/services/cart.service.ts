@@ -18,6 +18,13 @@ export class CartService {
     return this.cartItems.reduce((acc, item) => acc + item.quantity, 0);
   }
 
+  get cartTotalPrice() {
+    return this.cartItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0,
+    );
+  }
+
   addToCart(product: Product) {
     const existItem = this.cartItems.find((item) => item.id === product.id);
 

@@ -4,7 +4,7 @@ import { BottomSheetComponent } from '../../../core/components/bottom-sheet/bott
 import { CartService } from '../../services/cart.service';
 import { MatButtonModule } from '@angular/material/button';
 import { UtilService } from '../../../core/services/util.service';
-import { OrderType } from '../../../core/models/core.model';
+import { OrderType, TableType } from '../../../core/models/core.model';
 import { Router } from '@angular/router';
 import { PaymentService } from '../../../payment/services/payment.service';
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +12,7 @@ import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { MatHint } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ProductListComponent } from '../../../cafes/components/product-list/product-list.component';
 
 @Component({
   selector: 'app-cart-screen',
@@ -22,12 +23,14 @@ import { Clipboard } from '@angular/cdk/clipboard';
     MatRadioModule,
     MatHint,
     MatIconModule,
+    ProductListComponent,
   ],
   templateUrl: './cart-screen.component.html',
   styleUrl: './cart-screen.component.scss',
 })
 export class CartScreenComponent implements OnInit {
   orderType!: number | null;
+  tableId!: number | null;
   paymentMethod!: number;
   payLoading!: boolean;
   testCardNumber = '4000 0035 6000 0008';
@@ -42,6 +45,7 @@ export class CartScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.orderType = this.utilService.getOrderType();
+    this.tableId = this.utilService.getTableId();
     if (this.orderType === null && this.cartService.cartItems.length > 0) {
       this.bottomSheet.open(BottomSheetComponent, {
         disableClose: true,
@@ -50,8 +54,16 @@ export class CartScreenComponent implements OnInit {
     }
   }
 
+  get cartItemsWithCopies() {
+    return this.cartService.cartItems.map((product) => ({ ...product }));
+  }
+
   get orderTypeTitle() {
     return this.orderType !== null ? OrderType[this.orderType as number] : '';
+  }
+
+  get tableType() {
+    return this.tableId !== null ? TableType[this.tableId as number] : '';
   }
 
   copyCardNumber() {
@@ -134,6 +146,7 @@ export class CartScreenComponent implements OnInit {
   onClearCart() {
     this.cartService.clearCart();
     localStorage.removeItem('orderType');
+    localStorage.removeItem('tableId');
     this.orderType = null;
   }
 }

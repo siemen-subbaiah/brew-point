@@ -11,6 +11,11 @@ export class UtilService {
     return storedOrderType ? Number(storedOrderType) : null;
   }
 
+  getTableId(): number | null {
+    const storedTableId = localStorage.getItem('tableId');
+    return storedTableId ? Number(storedTableId) : null;
+  }
+
   openSnackBar(content: string) {
     this.snackBar.open(content, 'Close', {
       duration: 3000,

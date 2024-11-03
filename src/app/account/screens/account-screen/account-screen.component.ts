@@ -60,7 +60,7 @@ export class AccountScreenComponent implements OnInit {
 
   onLogout() {
     this.cartService.clearCart();
-    // here need to clear localstorage!
+    localStorage.clear();
     this.authService.logout().subscribe({
       next: () => {
         this.router.navigate(['/login']);

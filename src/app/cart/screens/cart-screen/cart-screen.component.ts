@@ -13,17 +13,19 @@ import { MatHint } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ProductListComponent } from '../../../cafes/components/product-list/product-list.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-cart-screen',
   standalone: true,
   imports: [
+    ProductListComponent,
     MatButtonModule,
     MatCardModule,
     MatRadioModule,
     MatHint,
     MatIconModule,
-    ProductListComponent,
+    MatDividerModule,
   ],
   templateUrl: './cart-screen.component.html',
   styleUrl: './cart-screen.component.scss',

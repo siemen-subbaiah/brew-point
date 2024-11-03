@@ -3,10 +3,9 @@
     isDarkTheme ? "Light" : "Dark"
   }}</mat-slide-toggle>
   <div class="mt-3">
-    {{ photoURL }}
     <img
       mat-card-image
-      src="photoURL"
+      [ngSrc]="photoURL"
       alt="avatar"
       height="120"
       width="120"

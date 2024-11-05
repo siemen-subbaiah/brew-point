@@ -14,12 +14,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ProductListComponent } from '../../../cafes/components/product-list/product-list.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { CartListComponent } from '../../components/cart-list/cart-list.component';
 
 @Component({
   selector: 'app-cart-screen',
   standalone: true,
   imports: [
-    ProductListComponent,
+    CartListComponent,
     MatButtonModule,
     MatCardModule,
     MatRadioModule,
@@ -66,6 +67,10 @@ export class CartScreenComponent implements OnInit {
 
   get tableType() {
     return this.tableId !== null ? TableType[this.tableId as number] : '';
+  }
+
+  get cafeName() {
+    return this.cartService.cartItems[0].cafeName;
   }
 
   copyCardNumber() {
@@ -119,7 +124,9 @@ export class CartScreenComponent implements OnInit {
       .payCounter({
         isPaid: true,
         isCanceled: false,
-        tableNumber: null,
+        tableNumber: localStorage.getItem('tableId')
+          ? +localStorage.getItem('tableId')!
+          : null,
         scheduleDetails: null,
         cartItems: this.cartService.cartItems,
       })

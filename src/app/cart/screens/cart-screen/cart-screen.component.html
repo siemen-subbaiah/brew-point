@@ -1,28 +1,47 @@
 @if (cartService.cartItems.length >= 1) {
-  <section class="grid grid-cols-1 md:grid-cols-2 gap-2">
-    <div>
-      <div class="flex justify-between">
-        <div>
-          <h2 class="mat-title-large">Order summary</h2>
-          <div class="flex gap-2">
-            <p>{{ orderTypeTitle }}</p>
-            @if (tableId) {
-              <p>{{ tableType }}</p>
-            }
+  <section class="grid grid-cols-1 md:grid-cols-12 gap-4">
+    <mat-card class="md:col-span-4 col-span-full" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title style="margin-bottom: 8px"
+          >Order Summary</mat-card-title
+        >
+        <mat-card-subtitle>
+          <div class="flex md:flex-row flex-col gap-2 md:items-center">
+            <div class="flex gap-2">
+              <mat-icon>restaurant</mat-icon>
+              <p class="mat-body-large">{{ cafeName }}</p>
+            </div>
+            <div class="flex gap-2">
+              <mat-icon>table_chart</mat-icon>
+              <p class="mat-body-large">{{ tableType }}</p>
+            </div>
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="flex justify-between items-center">
+          <h3 class="mat-title-large">Items</h3>
+          <button mat-button (click)="onClearCart()">clear cart</button>
+        </div>
+        <div class="h-[63vh] overflow-auto no-scrollbar">
+          @for (product of cartItemsWithCopies; track product.id) {
+            <app-cart-list [product]="product" />
+          }
+          <div class="mt-4">
+            <h3 class="mat-body-large">
+              Add-ons You Should Definitely Checkout
+            </h3>
+            <p>coming soon...</p>
           </div>
         </div>
-        <button mat-button (click)="onClearCart()">clear cart</button>
-      </div>
-      <div
-        class="h-[52vh] grid grid-cols-1 md:grid-cols-2 gap-2 overflow-auto no-scrollbar"
-      >
-        @for (product of cartItemsWithCopies; track product.id) {
-          <app-product-list [product]="product" />
-        }
-      </div>
-      <mat-card class="mt-2" appearance="outlined">
+      </mat-card-content>
+    </mat-card>
+    <div class="md:col-span-8 col-span-full">
+      <mat-card class="mb-2" appearance="outlined">
         <mat-card-header>
-          <mat-card-title>Bill Details</mat-card-title>
+          <mat-card-title style="margin-bottom: 8px"
+            >Bill Details</mat-card-title
+          >
         </mat-card-header>
         <mat-card-content>
           <div class="flex justify-between items-center">
@@ -34,41 +53,43 @@
             <p>₹15</p>
           </div>
           <div class="flex justify-between items-center">
-            <p>To Pay</p>
+            <p>Total</p>
             <p>₹{{ cartService.cartTotalPrice + 15 }}</p>
           </div>
         </mat-card-content>
       </mat-card>
-    </div>
-    <div>
-      <h2 class="mat-title-large">Select payment method</h2>
-      <mat-radio-group (change)="onSelectPaymentMethod($event)">
-        <mat-card appearance="outlined">
-          <mat-radio-button value="1">Pay Online</mat-radio-button>
-        </mat-card>
-        <div class="flex items-center">
-          <mat-hint class="mat-body-small ml-1"
-            >Please use {{ testCardNumber }} as a test card</mat-hint
+      <div>
+        <h2 class="mat-title-large" style="margin: 15px 0">
+          Select payment method
+        </h2>
+        <mat-radio-group (change)="onSelectPaymentMethod($event)">
+          <mat-card appearance="outlined">
+            <mat-radio-button value="1"> Pay Online </mat-radio-button>
+          </mat-card>
+          <div class="flex items-center">
+            <mat-hint class="mat-body-small ml-1"
+              >Please use {{ testCardNumber }} as a test card</mat-hint
+            >
+            <mat-icon
+              class="text-sm mt-1 ml-1 cursor-pointer"
+              (click)="copyCardNumber()"
+              >content_copy</mat-icon
+            >
+          </div>
+          <mat-card appearance="outlined" class="mt-3">
+            <mat-radio-button value="2">Pay at counter</mat-radio-button>
+          </mat-card>
+        </mat-radio-group>
+        <div class="flex gap-2 mt-5 justify-end">
+          <button mat-button (click)="onCancelOrder()">Cancel</button>
+          <button
+            mat-flat-button
+            [disabled]="!paymentMethod || payLoading"
+            (click)="onPlaceOrder()"
           >
-          <mat-icon
-            class="text-sm mt-1 ml-1 cursor-pointer"
-            (click)="copyCardNumber()"
-            >content_copy</mat-icon
-          >
+            Place order
+          </button>
         </div>
-        <mat-card appearance="outlined" class="mt-3">
-          <mat-radio-button value="2">Pay at counter</mat-radio-button>
-        </mat-card>
-      </mat-radio-group>
-      <div class="flex gap-2 mt-5 justify-end">
-        <button mat-button (click)="onCancelOrder()">Cancel</button>
-        <button
-          mat-flat-button
-          [disabled]="!paymentMethod || payLoading"
-          (click)="onPlaceOrder()"
-        >
-          Place order
-        </button>
       </div>
     </div>
   </section>

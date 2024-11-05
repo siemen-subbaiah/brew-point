@@ -45,7 +45,9 @@ export class CancelComponent implements OnInit {
       .payOnline({
         isPaid: false,
         isCanceled: true,
-        tableNumber: null,
+        tableNumber: localStorage.getItem('tableId')
+          ? +localStorage.getItem('tableId')!
+          : null,
         scheduleDetails: null,
         cartItems: this.cartService.cartItems,
       })

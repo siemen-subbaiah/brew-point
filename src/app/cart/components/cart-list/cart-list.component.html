@@ -1,0 +1,27 @@
+<section>
+  <section
+    class="surface-container-low p-2 rounded-sm flex justify-between items-center"
+  >
+    <div class="flex gap-2 items-center">
+      <img
+        [src]="product.image"
+        [alt]="product.name"
+        class="h-16 w-16 rounded-full"
+      />
+      <div>
+        <p class="mat-body-large" style="margin: 0">{{ product.name }}</p>
+        <p class="mat-body-medium">₹{{ product.price * product.quantity }}</p>
+      </div>
+    </div>
+    <div class="cart-btn">
+      <button (click)="onRemoveItem(product)" mat-icon-button>
+        <mat-icon class="icon-size">remove</mat-icon>
+      </button>
+      <span>{{ product.quantity }}</span>
+      <button (click)="onAddItem(product)" mat-icon-button>
+        <mat-icon class="icon-size">add</mat-icon>
+      </button>
+    </div>
+  </section>
+  <mat-divider></mat-divider>
+</section>

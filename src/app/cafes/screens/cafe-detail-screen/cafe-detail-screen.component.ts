@@ -117,12 +117,14 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
                 ...data,
                 quantity: findProduct.quantity,
                 cafeId: this.cafeId,
+                cafeName: this.cafe.name,
               };
             }
             return {
               ...data,
               quantity: 0,
               cafeId: this.cafeId,
+              cafeName: this.cafe.name,
             };
           });
         } else {
@@ -131,6 +133,7 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
               ...data,
               quantity: 0,
               cafeId: this.cafeId,
+              cafeName: this.cafe.name,
             };
           });
         }

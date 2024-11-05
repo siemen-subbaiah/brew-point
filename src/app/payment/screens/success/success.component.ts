@@ -45,7 +45,9 @@ export class SuccessComponent implements OnInit {
       .payOnline({
         isPaid: true,
         isCanceled: false,
-        tableNumber: null,
+        tableNumber: localStorage.getItem('tableId')
+          ? +localStorage.getItem('tableId')!
+          : null,
         scheduleDetails: null,
         cartItems: this.cartService.cartItems,
       })

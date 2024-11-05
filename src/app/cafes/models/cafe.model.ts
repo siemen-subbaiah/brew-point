@@ -11,6 +11,7 @@ export interface Cafe {
 export interface Product {
   id: string;
   cafeId: string;
+  cafeName: string;
   name: string;
   description: string;
   image: string;

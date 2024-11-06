@@ -11,3 +11,14 @@ export interface Order {
   isPaid: boolean;
   cartItems: Product[];
 }
+
+export interface OrderDetails {
+  orderType: number | null;
+  cafeID: string | null;
+  cafeName: string | null;
+  tableId: number | null;
+  guest: number | null;
+  selectedDate: Date | null;
+  selectedTime: Date | null;
+  selectedEndTime: Date | null;
+}

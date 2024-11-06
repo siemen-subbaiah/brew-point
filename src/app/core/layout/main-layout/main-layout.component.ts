@@ -28,7 +28,6 @@ import { Subscription } from 'rxjs';
   styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
-  orderType!: number | null;
   currentOrder: Order[] = [];
   currentOrderId!: string;
   orderSub = new Subscription();
@@ -68,10 +67,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   }
 
   onOpenBottomSheet() {
-    this.orderType = this.utilService.getOrderType();
-    this.bottomSheet.open(BottomSheetComponent, {
-      data: this.orderType,
-    });
+    const orderDetails = this.utilService.getOrderDetails();
+
+    if (orderDetails === null) {
+      this.bottomSheet.open(BottomSheetComponent);
+      return;
+    }
+
+    this.router.navigate(['/cart']);
   }
 
   ngOnDestroy(): void {

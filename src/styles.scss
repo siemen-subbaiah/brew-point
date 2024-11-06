@@ -1,6 +1,7 @@
 @use "@angular/material" as mat;
 @use "./theme/m3-theme.scss";
 @use "./theme/mixins";
+@use "@dhutaryan/ngx-mat-timepicker" as mat-timepicker;
 
 @include mat.core();
 
@@ -9,6 +10,9 @@
   @include mat.all-component-themes(m3-theme.$light-theme);
   @include mixins.mat-component-variants(m3-theme.$light-theme);
   @include mat.system-level-colors(m3-theme.$light-theme);
+
+  // timepicker theme
+  @include mat-timepicker.timepicker-theme(m3-theme.$light-theme);
 }
 
 .dark-theme {
@@ -16,6 +20,9 @@
   @include mat.all-component-colors(m3-theme.$dark-theme);
   @include mixins.mat-component-variants(m3-theme.$dark-theme);
   @include mat.system-level-colors(m3-theme.$dark-theme);
+
+  // timepicker theme
+  @include mat-timepicker.timepicker-theme(m3-theme.$dark-theme);
 }
 
 @include mat.typography-hierarchy(m3-theme.$light-theme);

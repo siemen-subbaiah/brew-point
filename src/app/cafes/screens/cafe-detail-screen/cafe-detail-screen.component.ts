@@ -11,17 +11,24 @@ import { ProductFilterPipe } from '../../pipes/product-filter.pipe';
 import { BreakPointService } from '../../../core/services/break-point.service';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
 import { OrderService } from '../../../orders/services/order.service';
+import { MatButtonModule } from '@angular/material/button';
+import { BottomSheetComponent } from '../../../core/components/bottom-sheet/bottom-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { CartService } from '../../../cart/services/cart.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-cafe-detail-screen',
   standalone: true,
   imports: [
     ProductListComponent,
+    SpinnerComponent,
     ProductFilterPipe,
     NgOptimizedImage,
+    MatButtonModule,
     MatChipsModule,
     MatIconModule,
-    SpinnerComponent,
+    MatTooltipModule,
   ],
   templateUrl: './cafe-detail-screen.component.html',
   styleUrl: './cafe-detail-screen.component.scss',
@@ -59,8 +66,10 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
   currentOrderSub = new Subscription();
 
   constructor(
+    private bottomSheet: MatBottomSheet,
     public breakPointService: BreakPointService,
     private cafeService: CafeService,
+    public cartService: CartService,
     private router: Router,
     private route: ActivatedRoute,
     private orderService: OrderService,
@@ -161,6 +170,16 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
         type: e.value,
       },
       queryParamsHandling: 'merge',
+    });
+  }
+
+  onOpenBottomSheet() {
+    this.bottomSheet.open(BottomSheetComponent, {
+      data: {
+        orderType: 0,
+        cafeID: this.cafeId,
+        cafeName: this.cafe.name,
+      },
     });
   }
 

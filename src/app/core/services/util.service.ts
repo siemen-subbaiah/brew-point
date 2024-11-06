@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OrderDetails } from '../../orders/models/order.model';
 @Injectable({
   providedIn: 'root',
 })
 export class UtilService {
   constructor(private snackBar: MatSnackBar) {}
 
-  getOrderType(): number | null {
-    const storedOrderType = localStorage.getItem('orderType');
-    return storedOrderType ? Number(storedOrderType) : null;
-  }
-
-  getTableId(): number | null {
-    const storedTableId = localStorage.getItem('tableId');
-    return storedTableId ? Number(storedTableId) : null;
+  getOrderDetails(): OrderDetails | null {
+    const storedOrderDetails = localStorage.getItem('orderDetails');
+    return storedOrderDetails ? JSON.parse(storedOrderDetails) : null;
   }
 
   openSnackBar(content: string) {

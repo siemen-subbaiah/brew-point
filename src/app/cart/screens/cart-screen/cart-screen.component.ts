@@ -12,9 +12,10 @@ import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { MatHint } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { ProductListComponent } from '../../../cafes/components/product-list/product-list.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { CartListComponent } from '../../components/cart-list/cart-list.component';
+import { OrderDetails } from '../../../orders/models/order.model';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-cart-screen',
@@ -32,8 +33,9 @@ import { CartListComponent } from '../../components/cart-list/cart-list.componen
   styleUrl: './cart-screen.component.scss',
 })
 export class CartScreenComponent implements OnInit {
-  orderType!: number | null;
-  tableId!: number | null;
+  orderDetails!: OrderDetails | null;
+  orderType!: number;
+  OrderTypeEnum = OrderType;
   paymentMethod!: number;
   payLoading!: boolean;
   testCardNumber = '4000 0035 6000 0008';
@@ -47,13 +49,22 @@ export class CartScreenComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.orderType = this.utilService.getOrderType();
-    this.tableId = this.utilService.getTableId();
-    if (this.orderType === null && this.cartService.cartItems.length > 0) {
-      this.bottomSheet.open(BottomSheetComponent, {
-        disableClose: true,
-        data: this.orderType,
-      });
+    this.orderDetails = this.utilService.getOrderDetails();
+    this.orderType = this.orderDetails?.orderType as number;
+
+    if (this.orderDetails === null && this.cartService.cartItems.length > 0) {
+      this.bottomSheet
+        .open(BottomSheetComponent, {
+          disableClose: true,
+        })
+        .afterDismissed()
+        .subscribe({
+          next: (res: OrderDetails) => {
+            this.orderDetails = res;
+            this.orderType = this.orderDetails?.orderType as number;
+            console.log(this.orderDetails);
+          },
+        });
     }
   }
 
@@ -62,15 +73,64 @@ export class CartScreenComponent implements OnInit {
   }
 
   get orderTypeTitle() {
-    return this.orderType !== null ? OrderType[this.orderType as number] : '';
+    return this.orderDetails?.orderType !== null
+      ? OrderType[this.orderDetails?.orderType as number]
+      : '';
   }
 
   get tableType() {
-    return this.tableId !== null ? TableType[this.tableId as number] : '';
+    return this.orderDetails?.tableId !== null
+      ? TableType[this.orderDetails?.tableId as number]
+      : '';
+  }
+
+  get guest() {
+    return this.orderDetails?.guest;
+  }
+
+  get reserveTableDetails() {
+    const formattedDate = dayjs(this.orderDetails?.selectedDate).format(
+      'DD MMM, YYYY',
+    );
+    const formattedStartTime = dayjs(this.orderDetails?.selectedTime).format(
+      'hh:mm A',
+    );
+    const formattedEndTime = dayjs(this.orderDetails?.selectedEndTime).format(
+      'hh:mm A',
+    );
+
+    return `${formattedDate}, ${formattedStartTime} - ${formattedEndTime}`;
+  }
+
+  get scheduleDetails() {
+    const formattedDate = dayjs(this.orderDetails?.selectedDate).format(
+      'DD MMM, YYYY',
+    );
+    const formattedStartTime = dayjs(this.orderDetails?.selectedTime).format(
+      'hh:mm A',
+    );
+    return `${formattedDate}, ${formattedStartTime}`;
   }
 
   get cafeName() {
-    return this.cartService.cartItems[0].cafeName;
+    return this.cartService.cartItems.length >= 1
+      ? this.cartService.cartItems[0].cafeName
+      : this.orderDetails?.cafeName;
+  }
+
+  onEditOption() {
+    this.bottomSheet
+      .open(BottomSheetComponent, {
+        disableClose: true,
+      })
+      .afterDismissed()
+      .subscribe({
+        next: (res: OrderDetails) => {
+          this.orderDetails = res;
+          this.orderType = this.orderDetails?.orderType as number;
+          console.log(this.orderDetails);
+        },
+      });
   }
 
   copyCardNumber() {
@@ -154,8 +214,6 @@ export class CartScreenComponent implements OnInit {
 
   onClearCart() {
     this.cartService.clearCart();
-    localStorage.removeItem('orderType');
-    localStorage.removeItem('tableId');
-    this.orderType = null;
+    localStorage.removeItem('orderDetails');
   }
 }

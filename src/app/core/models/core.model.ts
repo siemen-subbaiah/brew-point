@@ -1,7 +1,7 @@
 export enum OrderType {
-  'Order for table',
-  'Schedule Your Pickup',
-  'Book Your Table',
+  'Reserve table',
+  'Schedule Pickup',
+  'Book at Table',
 }
 
 export enum TableType {

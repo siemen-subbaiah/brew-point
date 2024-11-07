@@ -60,8 +60,8 @@ export class BottomSheetComponent implements OnInit {
   selectedTime!: Date | null;
   selectedEndTime!: Date | null;
   alreadySelectedOrderType!: number;
-  cafeID!: string;
-  cafeName!: string;
+  cafeID!: string | null;
+  cafeName!: string | null;
 
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA)
@@ -92,6 +92,10 @@ export class BottomSheetComponent implements OnInit {
       this.selectedDate = orderDetails.selectedDate;
       this.selectedTime = orderDetails.selectedTime;
       this.selectedEndTime = orderDetails.selectedEndTime;
+      this.cafeName = this.data?.cafeName
+        ? this.data?.cafeName
+        : orderDetails?.cafeName;
+      this.cafeID = this.data?.cafeID ? this.data?.cafeID : orderDetails.cafeID;
     }
   }
 

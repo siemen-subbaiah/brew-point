@@ -1,4 +1,4 @@
-import { Component, isDevMode, OnInit } from '@angular/core';
+import { Component, isDevMode, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { BottomSheetComponent } from '../../../core/components/bottom-sheet/bottom-sheet.component';
 import { CartService } from '../../services/cart.service';
@@ -16,6 +16,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { CartListComponent } from '../../components/cart-list/cart-list.component';
 import { OrderDetails } from '../../../orders/models/order.model';
 import dayjs from 'dayjs';
+import { CafeService } from '../../../cafes/services/cafe.service';
+import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
+import { Product } from '../../../cafes/models/cafe.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cart-screen',
@@ -28,20 +32,26 @@ import dayjs from 'dayjs';
     MatHint,
     MatIconModule,
     MatDividerModule,
+    SpinnerComponent,
   ],
   templateUrl: './cart-screen.component.html',
   styleUrl: './cart-screen.component.scss',
 })
-export class CartScreenComponent implements OnInit {
+export class CartScreenComponent implements OnInit, OnDestroy {
   orderDetails!: OrderDetails | null;
   orderType!: number;
   OrderTypeEnum = OrderType;
   paymentMethod!: number;
   payLoading!: boolean;
+  combosLoading!: boolean;
   testCardNumber = '4000 0035 6000 0008';
+  combos: Product[] = [];
+  addComboSub = new Subscription();
+
   constructor(
     private bottomSheet: MatBottomSheet,
     public cartService: CartService,
+    private cafeService: CafeService,
     private clipboard: Clipboard,
     private paymentService: PaymentService,
     private router: Router,
@@ -66,6 +76,14 @@ export class CartScreenComponent implements OnInit {
           },
         });
     }
+
+    if (this.cartService.cartItems.length >= 1) {
+      this.listCombos(this.cartService.cartItems[0].cafeId);
+    }
+
+    this.addComboSub = this.cartService.addCombo$.subscribe((product) => {
+      this.addCombo(product);
+    });
   }
 
   get cartItemsWithCopies() {
@@ -118,17 +136,51 @@ export class CartScreenComponent implements OnInit {
       : this.orderDetails?.cafeName;
   }
 
+  listCombos(cafeID: string) {
+    this.combosLoading = true;
+    this.cafeService.listCombosByCafeId(cafeID).subscribe({
+      next: (res) => {
+        if (res.length >= 1) {
+          this.combos = res.map((data) => {
+            return {
+              ...data,
+              isCombo: true,
+              cafeName: this.cartService.cartItems[0].cafeName,
+              cafeId: this.cartService.cartItems[0].cafeId,
+              quantity: 1,
+            };
+          });
+        } else {
+          this.combos = [];
+        }
+        this.combosLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  removeCombo(comboId: string) {
+    this.combos = this.combos.filter((combo) => combo.id !== comboId);
+  }
+
+  addCombo(combo: Product) {
+    console.log('here it is not running!');
+    this.combos.push(combo);
+  }
+
   onEditOption() {
     this.bottomSheet
-      .open(BottomSheetComponent, {
-        disableClose: true,
-      })
+      .open(BottomSheetComponent)
       .afterDismissed()
       .subscribe({
         next: (res: OrderDetails) => {
-          this.orderDetails = res;
-          this.orderType = this.orderDetails?.orderType as number;
-          console.log(this.orderDetails);
+          if (res) {
+            this.orderDetails = res;
+            this.orderType = this.orderDetails?.orderType as number;
+            console.log(this.orderDetails);
+          }
         },
       });
   }
@@ -215,5 +267,11 @@ export class CartScreenComponent implements OnInit {
   onClearCart() {
     this.cartService.clearCart();
     localStorage.removeItem('orderDetails');
+  }
+
+  ngOnDestroy(): void {
+    if (this.addComboSub) {
+      this.addComboSub.unsubscribe();
+    }
   }
 }

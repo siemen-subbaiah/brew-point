@@ -10,15 +10,17 @@
         >
         <mat-card-subtitle>
           {{ orderTypeTitle }}
-          <div class="flex md:flex-row flex-col gap-2 md:items-center mt-2">
+          <div
+            class="flex md:flex-row flex-col gap-2 md:items-center mt-2 flex-wrap"
+          >
             <div class="flex gap-2">
               <mat-icon>restaurant</mat-icon>
               <p class="mat-body-large">{{ cafeName }}</p>
             </div>
             @if (orderType === OrderTypeEnum["Reserve table"]) {
               <div class="flex gap-2">
-                <mat-icon>table_chart</mat-icon>
-                <p class="mat-body-large">{{ guest }}</p>
+                <mat-icon>people</mat-icon>
+                <p class="mat-body-large">{{ guest }} guests</p>
               </div>
               <div class="flex gap-2">
                 <mat-icon>calendar_today</mat-icon>
@@ -53,13 +55,25 @@
           </div>
           <div class="h-[63vh] overflow-auto no-scrollbar">
             @for (product of cartItemsWithCopies; track product.id) {
-              <app-cart-list [product]="product" />
+              <app-cart-list [product]="product" [isProduct]="true" />
             }
             <div class="mt-4">
-              <h3 class="mat-body-large">
-                Add-ons You Should Definitely Checkout
-              </h3>
-              <p>coming soon...</p>
+              @if (!combosLoading) {
+                @if (combos.length) {
+                  <h3 class="mat-title-medium">
+                    Add-ons You Should Definitely Checkout
+                  </h3>
+                  @for (combo of combos; track combo.id) {
+                    <app-cart-list
+                      [product]="combo"
+                      [isProduct]="false"
+                      (emitRemoveCombo)="removeCombo($event)"
+                    />
+                  }
+                }
+              } @else {
+                <app-spinner />
+              }
             </div>
           </div>
         </mat-card-content>

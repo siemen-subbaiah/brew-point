@@ -16,6 +16,7 @@ export interface Product {
   description: string;
   image: string;
   price: number;
-  productType: number;
+  productType?: number;
   quantity: number;
+  isCombo?: boolean;
 }

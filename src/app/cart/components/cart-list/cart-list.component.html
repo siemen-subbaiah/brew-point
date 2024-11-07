@@ -14,13 +14,17 @@
       </div>
     </div>
     <div class="cart-btn">
-      <button (click)="onRemoveItem(product)" mat-icon-button>
-        <mat-icon class="icon-size">remove</mat-icon>
-      </button>
-      <span>{{ product.quantity }}</span>
-      <button (click)="onAddItem(product)" mat-icon-button>
-        <mat-icon class="icon-size">add</mat-icon>
-      </button>
+      @if (isProduct) {
+        <button (click)="onRemoveItem(product)" mat-icon-button>
+          <mat-icon class="icon-size">remove</mat-icon>
+        </button>
+        <span>{{ product.quantity }}</span>
+        <button (click)="onAddItem(product, false)" mat-icon-button>
+          <mat-icon class="icon-size">add</mat-icon>
+        </button>
+      } @else {
+        <button mat-button (click)="onAddItem(product, true)">Add</button>
+      }
     </div>
   </section>
   <mat-divider></mat-divider>

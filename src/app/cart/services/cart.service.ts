@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Product } from '../../cafes/models/cafe.model';
 import { collection, Firestore } from '@angular/fire/firestore';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,8 @@ export class CartService {
   cartItems: Product[] = localStorage.getItem('cartItems')
     ? JSON.parse(localStorage.getItem('cartItems')!)
     : [];
+
+  addCombo$ = new Subject<Product>();
 
   constructor() {}
 

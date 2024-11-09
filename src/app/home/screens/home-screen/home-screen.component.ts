@@ -9,6 +9,9 @@ import { Subscription } from 'rxjs';
 import { BreakPointService } from '../../../core/services/break-point.service';
 import { SearchComponent } from '../../../core/components/search/search.component';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
+import { OrderService } from '../../../orders/services/order.service';
+import { Order } from '../../../orders/models/order.model';
+import { OrderListComponent } from '../../components/order-list/order-list.component';
 
 @Component({
   selector: 'app-home-screen',
@@ -16,26 +19,34 @@ import { SpinnerComponent } from '../../../core/components/spinner/spinner.compo
   imports: [
     CafeListComponent,
     SearchComponent,
+    OrderListComponent,
+    SpinnerComponent,
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    SpinnerComponent,
   ],
   templateUrl: './home-screen.component.html',
   styleUrl: './home-screen.component.scss',
 })
 export class HomeScreenComponent implements OnInit, OnDestroy {
-  loading!: boolean;
   cafes!: Cafe[];
+  currentOrder: Order[] = [];
+  currentRecentOrders: { type: number; title: string; children: Order }[] = [];
+  loading!: boolean;
+  currentOrderLoading!: boolean;
   options: { id: string; name: string }[] = [];
   cafeSub = new Subscription();
+  orderSub = new Subscription();
+
   constructor(
-    private cafeService: CafeService,
     public breakPointService: BreakPointService,
+    private cafeService: CafeService,
+    private orderService: OrderService,
   ) {}
 
   ngOnInit() {
     this.listPopularCafes();
+    this.listCurrentOrders();
   }
 
   listPopularCafes() {
@@ -52,7 +63,43 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
     });
   }
 
+  listCurrentOrders() {
+    this.currentOrderLoading = true;
+    this.orderSub = this.orderService.listCurrentOrders().subscribe({
+      next: (res) => {
+        if (res.length >= 1) {
+          this.currentOrder = res;
+          const orderTitles = [
+            { type: 0, title: 'Upcoming schedule' },
+            { type: 1, title: 'Upcoming pickup' },
+            { type: 2, title: 'Upcoming serve' },
+          ];
+          this.currentRecentOrders = orderTitles.map((order) => {
+            return {
+              type: order.type,
+              title: order.title,
+              children: this.currentOrder
+                .filter((currentOrder) => currentOrder.orderType === order.type)
+                .sort((a, b) => b.timeStamp - a.timeStamp)[0],
+            };
+          });
+
+          console.log(this.currentRecentOrders);
+        } else {
+          this.currentOrder = [];
+        }
+        this.currentOrderLoading = false;
+      },
+    });
+  }
+
   ngOnDestroy(): void {
-    this.cafeSub.unsubscribe();
+    if (this.cafeSub) {
+      this.cafeSub.unsubscribe();
+    }
+
+    if (this.orderSub) {
+      this.orderSub.unsubscribe();
+    }
   }
 }

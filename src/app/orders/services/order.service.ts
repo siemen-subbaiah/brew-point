@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import {
-  addDoc,
   collection,
   Firestore,
   where,
@@ -18,16 +17,26 @@ import { from, Observable, Subject } from 'rxjs';
 export class OrderService {
   firestore = inject(Firestore);
   orderCollection = collection(this.firestore, 'orders');
-  currentOrder$ = new Subject<boolean>();
 
   constructor() {}
 
-  listCurrentOrder(): Observable<Order[]> {
+  listCurrentOrders(): Observable<Order[]> {
     const q = query(
       this.orderCollection,
       where('userId', '==', localStorage.getItem('uid')),
       where('isPaid', '==', true),
       where('isDelivered', '==', false),
+    );
+
+    return collectionData(q, {
+      idField: 'id',
+    }) as Observable<Order[]>;
+  }
+
+  listAllOrders(): Observable<Order[]> {
+    const q = query(
+      this.orderCollection,
+      where('userId', '==', localStorage.getItem('uid')),
     );
 
     return collectionData(q, {

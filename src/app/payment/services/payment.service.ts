@@ -4,7 +4,13 @@ import { Product } from '../../cafes/models/cafe.model';
 import { from, switchMap, tap } from 'rxjs';
 import { StripeService } from 'ngx-stripe';
 import { Order } from '../../orders/models/order.model';
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  Firestore,
+  updateDoc,
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -19,18 +25,7 @@ export class PaymentService {
   ) {}
 
   placeOrder(order: Order) {
-    const body = {
-      userId: localStorage.getItem('uid'),
-      isPaid: order.isPaid,
-      isCanceled: order.isCanceled,
-      isDelivered: false,
-      timeStamp: new Date().getTime(),
-      tableNumber: order.tableNumber,
-      scheduleDetails: order.scheduleDetails,
-      products: order.cartItems,
-    };
-
-    const promise = addDoc(this.orderCollection, body);
+    const promise = addDoc(this.orderCollection, order);
     return from(promise);
   }
 
@@ -54,5 +49,15 @@ export class PaymentService {
           this.stripeService.redirectToCheckout({ sessionId: session.id }),
         ),
       );
+  }
+
+  updateOrder(orderId: string, deliveryTime: number) {
+    const orderRef = doc(this.firestore, 'orders', orderId);
+    console.log(orderRef);
+    const promise = updateDoc(orderRef, {
+      isDelivered: true,
+      deliveryTime,
+    });
+    return from(promise);
   }
 }

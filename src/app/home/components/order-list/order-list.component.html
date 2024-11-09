@@ -1,0 +1,13 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <div class="flex justify-between items-center w-full">
+      <mat-card-subtitle>{{ details.title }}</mat-card-subtitle>
+      @if (isHome) {
+        <button mat-button>My Orders</button>
+      }
+    </div>
+  </mat-card-header>
+  @for (order of orderDetailsArray; track order.id) {
+    <app-order-list-details [order]="order" />
+  }
+</mat-card>

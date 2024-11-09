@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
 import { TruncatePipe } from '../../../core/pipes/truncate.pipe';
 import { NgOptimizedImage } from '@angular/common';
 import { Product } from '../../models/cafe.model';
@@ -17,12 +15,10 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [
     NgOptimizedImage,
-    RouterLink,
     TruncatePipe,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -31,7 +27,6 @@ export class ProductListComponent {
   isAllowedToCart = true;
   @Input({ required: true }) product!: Product;
   @Input() cafeId!: string;
-  @Input() isOrderPlaced!: boolean;
   currentOrderSub = new Subscription();
 
   constructor(

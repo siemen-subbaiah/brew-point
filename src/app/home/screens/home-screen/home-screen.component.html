@@ -2,6 +2,20 @@
   @if (breakPointService.isMobileScreen) {
     <app-search [options]="options" />
   }
+
+  @if (currentOrder.length >= 1) {
+    <h1 class="mat-headline-medium">Upcoming Events</h1>
+    @if (!currentOrderLoading) {
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+        @for (currentOrder of currentRecentOrders; track currentOrder.type) {
+          @if (currentOrder.children) {
+            <app-order-list [details]="currentOrder" [isHome]="true" />
+          }
+        }
+      </div>
+    }
+  }
+
   <h1 class="mat-headline-medium">Top Cafes</h1>
   @if (!loading) {
     <div class="grid grid-cols-1 md:grid-cols-4 gap-2">

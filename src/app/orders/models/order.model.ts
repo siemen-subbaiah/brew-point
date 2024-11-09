@@ -2,13 +2,20 @@ import { Product } from '../../cafes/models/cafe.model';
 
 export interface Order {
   id?: string;
+  userId?: string;
+  isPaid: boolean;
   isCanceled?: boolean;
   isDelivered?: boolean;
-  timeStamp?: number;
-  userId?: string;
-  tableNumber: number | null;
-  scheduleDetails: any | null;
-  isPaid: boolean;
+  timeStamp: number;
+  orderType?: number;
+  cafeID?: string;
+  cafeName?: string;
+  tableId?: number | null;
+  guest?: number | null;
+  selectedDate?: number | null;
+  selectedTime?: number | null;
+  selectedEndTime?: number | null;
+  deliveryTime?: number | null;
   cartItems: Product[];
 }
 

@@ -234,13 +234,30 @@ export class CartScreenComponent implements OnInit, OnDestroy {
     this.payLoading = true;
     this.paymentService
       .payCounter({
+        userId: localStorage.getItem('uid') as string,
         isPaid: true,
         isCanceled: false,
-        tableNumber: localStorage.getItem('tableId')
-          ? +localStorage.getItem('tableId')!
+        isDelivered: false,
+        timeStamp: new Date().getTime(),
+        orderType: this.orderType,
+        cafeID: this.cartService.cartItems[0].cafeId,
+        cafeName: this.cartService.cartItems[0].cafeName,
+        tableId: this.orderDetails?.tableId ? this.orderDetails?.tableId : null,
+        guest: this.orderDetails?.guest ? this.orderDetails?.guest : null,
+        selectedDate: this.orderDetails?.selectedDate
+          ? new Date(this.orderDetails?.selectedDate as Date).getTime()
           : null,
-        scheduleDetails: null,
-        cartItems: this.cartService.cartItems,
+        selectedTime: this.orderDetails?.selectedTime
+          ? new Date(this.orderDetails?.selectedTime as Date).getTime()
+          : null,
+        selectedEndTime: this.orderDetails?.selectedEndTime
+          ? new Date(this.orderDetails?.selectedEndTime as Date).getTime()
+          : null,
+        deliveryTime: null,
+        cartItems:
+          this.cartService.cartItems.length >= 1
+            ? this.cartService.cartItems
+            : [],
       })
       .subscribe({
         next: (res) => {
@@ -248,6 +265,7 @@ export class CartScreenComponent implements OnInit, OnDestroy {
             console.log(res);
             this.router.navigate(['/order', res.id]);
             this.onClearCart();
+            localStorage.removeItem('orderDetails');
           } else {
             console.log('error');
           }

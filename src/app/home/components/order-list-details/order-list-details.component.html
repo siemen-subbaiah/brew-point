@@ -1,0 +1,18 @@
+<mat-card-content>
+  <section class="surface-container-low p-2 rounded-md">
+    <div class="flex justify-between items-center">
+      <p class="mat-label-medium">#{{ order.id }}</p>
+      <a
+        [routerLink]="['order', order.id]"
+        mat-icon-button
+        class="relative bottom-1"
+      >
+        <mat-icon>arrow_right</mat-icon>
+      </a>
+    </div>
+    <h2 class="mat-body-large">{{ order.cafeName }}</h2>
+    <h2 class="mat-body-medium">
+      {{ order.timeStamp | date: "dd MMM YYYY h:mm a" }}
+    </h2>
+  </section>
+</mat-card-content>

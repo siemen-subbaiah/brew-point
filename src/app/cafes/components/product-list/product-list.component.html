@@ -27,18 +27,7 @@
           <mat-icon class="icon-size">add</mat-icon>
         </button>
       } @else {
-        <div
-          matTooltip="A current order is placed"
-          [matTooltipDisabled]="!isOrderPlaced"
-        >
-          <button
-            mat-button
-            [disabled]="isOrderPlaced"
-            (click)="onAddItem(product)"
-          >
-            Add
-          </button>
-        </div>
+        <button mat-button (click)="onAddItem(product)">Add</button>
       }
     </div>
   </mat-card-actions>

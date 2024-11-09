@@ -59,7 +59,6 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
     },
   ];
   selectedFilter = -1;
-  isOrderPlaced!: boolean;
   queryParamSub = new Subscription();
   cafeSub = new Subscription();
   productsSub = new Subscription();
@@ -79,7 +78,6 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
     this.cafeId = this.route.snapshot.params['id'];
     this.getCafe(this.cafeId);
     this.listProducts(this.cafeId);
-    this.listCurrentOrders();
 
     this.queryParamSub = this.route.queryParamMap.subscribe((params) => {
       this.selectedFilter = params.get('type')
@@ -147,18 +145,6 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
           });
         }
         this.productsLoading = false;
-      },
-    });
-  }
-
-  listCurrentOrders() {
-    this.currentOrderSub = this.orderService.listCurrentOrder().subscribe({
-      next: (res) => {
-        if (res.length >= 1) {
-          this.isOrderPlaced = true;
-        } else {
-          this.isOrderPlaced = false;
-        }
       },
     });
   }

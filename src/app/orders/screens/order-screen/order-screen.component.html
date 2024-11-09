@@ -1,1 +1,155 @@
-<p>Current order ID : {{ orderId }}</p>
+<section>
+  @if (breakPointService.isDesktopTabScreen) {
+    <div class="grid grid-cols-2">
+      <section>
+        <mat-stepper
+          linear
+          #stepper
+          orientation="vertical"
+          (selectionChange)="onStepChange($event)"
+          style="background-color: transparent"
+        >
+          <mat-step
+            [completed]="isOrderAccepted"
+            label="Order Accepted"
+            state="order_accepted"
+          >
+            <mat-card class="my-10" appearance="outlined">
+              <mat-card-header>
+                <mat-card-title>Order ID</mat-card-title>
+                <mat-card-subtitle>#{{ orderId }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                Your order
+                {{ isOrderDone ? "was delivered in" : "will be ready in" }}
+                {{ deliveryTime }} minutes.
+              </mat-card-content>
+            </mat-card>
+          </mat-step>
+          <mat-step
+            [completed]="isOrderDone"
+            label="Preparing"
+            state="preparing"
+          >
+            <mat-card class="my-10" appearance="outlined">
+              <mat-card-header class="mt-4">
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="progress"
+                ></mat-progress-bar>
+              </mat-card-header>
+              <mat-card-content class="mt-4 text-center">
+                {{
+                  isOrderDone
+                    ? "Order prepared and served"
+                    : "We are preparing your order"
+                }}
+              </mat-card-content>
+            </mat-card>
+          </mat-step>
+          <mat-step
+            [completed]="false"
+            label="Out For Serve"
+            state="out_for_serve"
+          >
+            <div class="my-5">
+              <button mat-stroked-button>
+                <mat-icon style="color: #00cf33">check_circle</mat-icon>
+                {{ orderDeliveryText }}
+              </button>
+            </div>
+          </mat-step>
+
+          <ng-template matStepperIcon="edit" let-index="index">
+            {{ index + 1 }}
+          </ng-template>
+          <ng-template matStepperIcon="preparing"> 2 </ng-template>
+          <ng-template matStepperIcon="out_for_serve"> 3 </ng-template>
+        </mat-stepper>
+      </section>
+      <section class="justify-self-center">
+        <img [src]="currentImage" alt="illustration" />
+      </section>
+    </div>
+  }
+
+  @if (breakPointService.isMobileScreen) {
+    <mat-stepper
+      linear
+      #stepper
+      orientation="horizontal"
+      labelPosition="bottom"
+      style="background-color: transparent"
+    >
+      <mat-step
+        [completed]="isOrderAccepted"
+        label="Order Accepted"
+        state="order_accepted"
+      >
+        <div class="flex items-center justify-center">
+          <img
+            [src]="currentImage"
+            alt="illustration"
+            height="250"
+            width="250"
+          />
+        </div>
+        <mat-card class="my-5" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>Order ID</mat-card-title>
+            <mat-card-subtitle>#{{ orderId }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            Your order
+            {{ isOrderDone ? "was delivered in" : "will be ready in" }}
+            {{ deliveryTime }} minutes.
+          </mat-card-content>
+        </mat-card>
+      </mat-step>
+      <mat-step [completed]="isOrderDone" label="Preparing" state="preparing">
+        <div class="flex items-center justify-center">
+          <img
+            [src]="currentImage"
+            alt="illustration"
+            height="250"
+            width="250"
+          />
+        </div>
+        <mat-card class="my-5" appearance="outlined">
+          <mat-card-header class="mt-4">
+            <mat-progress-bar
+              mode="determinate"
+              [value]="progress"
+            ></mat-progress-bar>
+          </mat-card-header>
+          <mat-card-content class="mt-4 text-center">
+            We are preparing your order
+          </mat-card-content>
+        </mat-card>
+      </mat-step>
+      <mat-step [completed]="false" label="Out For Serve" state="out_for_serve">
+        <div class="flex items-center justify-center">
+          <img
+            [src]="currentImage"
+            alt="illustration"
+            height="250"
+            width="250"
+          />
+        </div>
+        <div class="my-5 flex flex-col gap-2 items-center justify-center">
+          <button mat-stroked-button>
+            <mat-icon style="color: #00cf33">check_circle</mat-icon>
+            {{ orderDeliveryText }}
+          </button>
+          <button routerLink="/" mat-button>Back to home</button>
+        </div>
+      </mat-step>
+
+      <ng-template matStepperIcon="edit" let-index="index">
+        {{ index + 1 }}
+      </ng-template>
+      <ng-template matStepperIcon="preparing"> 2 </ng-template>
+      <ng-template matStepperIcon="out_for_serve"> 3 </ng-template>
+    </mat-stepper>
+  }
+</section>

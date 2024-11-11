@@ -19,6 +19,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    console.log('hello!');
+
     const darkTheme = localStorage.getItem('dark-theme');
 
     if (darkTheme) {

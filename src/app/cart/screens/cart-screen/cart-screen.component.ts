@@ -20,6 +20,7 @@ import { CafeService } from '../../../cafes/services/cafe.service';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
 import { Product } from '../../../cafes/models/cafe.model';
 import { Subscription } from 'rxjs';
+import { testWorker } from '../../../core/utils/data';
 
 @Component({
   selector: 'app-cart-screen',
@@ -280,6 +281,10 @@ export class CartScreenComponent implements OnInit, OnDestroy {
           console.log('order placed!');
         },
       });
+  }
+
+  onWebWorkerTest() {
+    testWorker.postMessage(1);
   }
 
   onClearCart() {

@@ -24,3 +24,7 @@ export const navLinks = [
     icon: 'account_circle',
   },
 ];
+
+export const testWorker = new Worker(
+  new URL('./test.worker.ts', import.meta.url),
+);

@@ -83,8 +83,6 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
                 .sort((a, b) => b.timeStamp - a.timeStamp)[0],
             };
           });
-
-          console.log(this.currentRecentOrders);
         } else {
           this.currentOrder = [];
         }

@@ -19,6 +19,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { BreakPointService } from '../../../core/services/break-point.service';
 import { PaymentService } from '../../../payment/services/payment.service';
+import { testWorker } from '../../../core/utils/data';
 
 @Component({
   selector: 'app-order-screen',
@@ -69,6 +70,10 @@ export class OrderScreenComponent implements OnInit, OnDestroy {
     this.orderId = this.route.snapshot.params['id'];
     this.getOrder(this.orderId);
     this.deliveryTime = Math.floor(Math.random() * 5) + 1;
+
+    testWorker.onmessage = (e) => {
+      console.log(e.data);
+    };
   }
 
   getOrder(orderId: string) {

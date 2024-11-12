@@ -12,6 +12,7 @@ import { SpinnerComponent } from '../../../core/components/spinner/spinner.compo
 import { OrderService } from '../../../orders/services/order.service';
 import { Order } from '../../../orders/models/order.model';
 import { OrderListComponent } from '../../components/order-list/order-list.component';
+import { UtilService } from '../../../core/services/util.service';
 
 @Component({
   selector: 'app-home-screen',
@@ -41,6 +42,7 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
   constructor(
     public breakPointService: BreakPointService,
     private cafeService: CafeService,
+    private utilService: UtilService,
     private orderService: OrderService,
   ) {}
 
@@ -59,6 +61,12 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
           res.map((cafe) => ({ id: cafe.id, name: cafe.name })),
         );
         this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
       },
     });
   }
@@ -87,6 +95,12 @@ export class HomeScreenComponent implements OnInit, OnDestroy {
           this.currentOrder = [];
         }
         this.currentOrderLoading = false;
+      },
+      error: () => {
+        this.currentOrderLoading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
       },
     });
   }

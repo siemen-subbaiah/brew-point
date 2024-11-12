@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { NgOptimizedImage } from '@angular/common';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
+import { UtilService } from '../../../core/services/util.service';
 
 @Component({
   selector: 'app-avatar-screen',
@@ -23,6 +24,7 @@ export class AvatarScreenComponent implements OnInit, OnDestroy {
   constructor(
     private avatarService: AvatarService,
     private authService: AuthService,
+    private utilService: UtilService,
     private router: Router,
   ) {}
 
@@ -38,6 +40,9 @@ export class AvatarScreenComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.loading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
       },
     });
   }
@@ -50,6 +55,7 @@ export class AvatarScreenComponent implements OnInit, OnDestroy {
     this.authService.updateAvatar(this.selectedAvatar).subscribe({
       next: () => {
         localStorage.setItem('photoURL', this.selectedAvatar ?? '');
+        this.utilService.openSnackBar('Avatar updated successfully.');
         this.router.navigate(['/']);
       },
     });

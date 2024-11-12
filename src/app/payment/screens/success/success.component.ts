@@ -4,7 +4,8 @@ import { CartService } from '../../../cart/services/cart.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { UtilService } from '../../../core/services/util.service';
-import { OrderDetails } from '../../../orders/models/order.model';
+import { Order, OrderDetails } from '../../../orders/models/order.model';
+import { orderWorker } from '../../../core/utils/data';
 
 @Component({
   selector: 'app-success',
@@ -67,7 +68,7 @@ export class SuccessComponent implements OnInit {
         selectedEndTime: this.orderDetails?.selectedEndTime
           ? new Date(this.orderDetails?.selectedEndTime as Date).getTime()
           : null,
-        deliveryTime: null,
+        deliveryTime: Math.floor(Math.random() * 5) + 1,
         cartItems:
           this.cartService.cartItems.length >= 1
             ? this.cartService.cartItems
@@ -76,8 +77,11 @@ export class SuccessComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res) {
-            console.log(res);
-            this.router.navigate(['/order', res.id]);
+            const respData = res as Order;
+            this.router.navigate(['/order', respData.id]);
+            orderWorker.postMessage({
+              deliveryTime: respData.deliveryTime,
+            });
             this.cartService.clearCart();
             localStorage.removeItem('orderDetails');
           } else {

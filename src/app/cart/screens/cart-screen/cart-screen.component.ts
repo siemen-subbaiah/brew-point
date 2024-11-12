@@ -14,13 +14,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDividerModule } from '@angular/material/divider';
 import { CartListComponent } from '../../components/cart-list/cart-list.component';
-import { OrderDetails } from '../../../orders/models/order.model';
+import { Order, OrderDetails } from '../../../orders/models/order.model';
 import dayjs from 'dayjs';
 import { CafeService } from '../../../cafes/services/cafe.service';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
 import { Product } from '../../../cafes/models/cafe.model';
 import { Subscription } from 'rxjs';
-import { testWorker } from '../../../core/utils/data';
+import { orderWorker } from '../../../core/utils/data';
 
 @Component({
   selector: 'app-cart-screen',
@@ -48,6 +48,7 @@ export class CartScreenComponent implements OnInit, OnDestroy {
   testCardNumber = '4000 0035 6000 0008';
   combos: Product[] = [];
   addComboSub = new Subscription();
+  comboSub = new Subscription();
 
   constructor(
     private bottomSheet: MatBottomSheet,
@@ -139,7 +140,7 @@ export class CartScreenComponent implements OnInit, OnDestroy {
 
   listCombos(cafeID: string) {
     this.combosLoading = true;
-    this.cafeService.listCombosByCafeId(cafeID).subscribe({
+    this.comboSub = this.cafeService.listCombosByCafeId(cafeID).subscribe({
       next: (res) => {
         if (res.length >= 1) {
           this.combos = res.map((data) => {
@@ -158,6 +159,10 @@ export class CartScreenComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.log(err);
+        this.combosLoading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
       },
     });
   }
@@ -218,12 +223,16 @@ export class CartScreenComponent implements OnInit, OnDestroy {
         next: (res) => {
           console.log(res);
           if (res.error) {
-            alert(res.error.message);
+            this.payLoading = false;
+            this.utilService.openSnackBar(res.error.message as string);
           }
         },
         error: (e) => {
           this.payLoading = false;
           console.log(e);
+          this.utilService.openSnackBar(
+            'Something went wrong, please try again later.',
+          );
         },
         complete: () => {
           this.payLoading = false;
@@ -254,7 +263,7 @@ export class CartScreenComponent implements OnInit, OnDestroy {
         selectedEndTime: this.orderDetails?.selectedEndTime
           ? new Date(this.orderDetails?.selectedEndTime as Date).getTime()
           : null,
-        deliveryTime: null,
+        deliveryTime: Math.floor(Math.random() * 5) + 1,
         cartItems:
           this.cartService.cartItems.length >= 1
             ? this.cartService.cartItems
@@ -263,28 +272,30 @@ export class CartScreenComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res) => {
           if (res) {
-            console.log(res);
-            this.router.navigate(['/order', res.id]);
+            const respData = res as Order;
+            this.router.navigate(['/order', respData.id]);
+            orderWorker.postMessage({ deliveryTime: respData.deliveryTime });
             this.onClearCart();
             localStorage.removeItem('orderDetails');
           } else {
-            console.log('error');
+            this.utilService.openSnackBar(
+              'Something went wrong, please try again later.',
+            );
+            this.payLoading = false;
           }
         },
         error: (e) => {
           console.log(e);
           this.payLoading = false;
-          console.log('error');
+          this.utilService.openSnackBar(
+            'Something went wrong, please try again later.',
+          );
         },
         complete: () => {
           this.payLoading = false;
           console.log('order placed!');
         },
       });
-  }
-
-  onWebWorkerTest() {
-    testWorker.postMessage(1);
   }
 
   onClearCart() {
@@ -295,6 +306,10 @@ export class CartScreenComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.addComboSub) {
       this.addComboSub.unsubscribe();
+    }
+
+    if (this.comboSub) {
+      this.comboSub.unsubscribe();
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center">
       <p class="mat-label-medium">#{{ order.id }}</p>
       <a
-        [routerLink]="['order', order.id]"
+        routerLink="/order/{{ order.id }}"
         mat-icon-button
         class="relative bottom-1"
       >

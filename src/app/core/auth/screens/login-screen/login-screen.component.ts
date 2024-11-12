@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
   styleUrl: './login-screen.component.scss',
 })
 export class LoginScreenComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   onLogin() {
     this.authService.loginOrRegister().subscribe({

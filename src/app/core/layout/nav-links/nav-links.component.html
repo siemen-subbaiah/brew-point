@@ -13,6 +13,8 @@
           <mat-icon [matBadge]="cartService.cartItemCount">{{
             item.icon
           }}</mat-icon>
+        } @else if (item.path === "account") {
+          <img [src]="photoURL" alt="avatar" class="rounded-full h-10 w-10" />
         } @else {
           <mat-icon>{{ item.icon }}</mat-icon>
         }

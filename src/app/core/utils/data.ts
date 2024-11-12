@@ -25,6 +25,6 @@ export const navLinks = [
   },
 ];
 
-export const testWorker = new Worker(
-  new URL('./test.worker.ts', import.meta.url),
+export const orderWorker = new Worker(
+  new URL('./order.worker.ts', import.meta.url),
 );

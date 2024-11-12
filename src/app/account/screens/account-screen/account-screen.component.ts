@@ -17,6 +17,7 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { UtilService } from '../../../core/services/util.service';
 
 @Component({
   selector: 'app-account-screen',
@@ -35,7 +36,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './account-screen.component.scss',
 })
 export class AccountScreenComponent implements OnInit {
-  allOrders: Order[] = [];
   currentOrders: { type: number; title: string; children: Order[] }[] = [];
   deliveredOrders: { type: number; title: string; children: Order[] }[] = [];
   isDarkTheme!: boolean;
@@ -44,11 +44,13 @@ export class AccountScreenComponent implements OnInit {
   displayName!: string;
   email!: string;
   authSub = new Subscription();
-  orderSub = new Subscription();
+  orderSub1 = new Subscription();
+  orderSub2 = new Subscription();
 
   constructor(
     private authService: AuthService,
     private cartService: CartService,
+    private utilService: UtilService,
     private orderService: OrderService,
     private router: Router,
   ) {}
@@ -73,6 +75,7 @@ export class AccountScreenComponent implements OnInit {
     });
 
     this.listCurrentOrders();
+    this.listAllOrders();
   }
 
   onThemeChange(e: MatButtonToggleChange) {
@@ -89,10 +92,10 @@ export class AccountScreenComponent implements OnInit {
 
   listCurrentOrders() {
     this.loading = true;
-    this.orderSub = this.orderService.listCurrentOrders().subscribe({
+    this.orderSub1 = this.orderService.listCurrentOrders().subscribe({
       next: (res) => {
         if (res.length >= 1) {
-          this.allOrders = res;
+          const orders = res;
           const orderTitles = [
             { type: 0, title: 'Upcoming schedule' },
             { type: 1, title: 'Upcoming pickup' },
@@ -102,26 +105,55 @@ export class AccountScreenComponent implements OnInit {
             return {
               type: orderTitle.type,
               title: orderTitle.title,
-              children: this.allOrders
+              children: orders
                 .filter((order) => order.orderType === orderTitle.type)
-                .filter((order) => order.isDelivered === false)
-                .sort((a, b) => b.timeStamp - a.timeStamp),
-            };
-          });
-          this.deliveredOrders = orderTitles.map((orderTitle) => {
-            return {
-              type: orderTitle.type,
-              title: orderTitle.title,
-              children: this.allOrders
-                .filter((order) => order.orderType === orderTitle.type)
-                .filter((order) => order.isDelivered === true)
                 .sort((a, b) => b.timeStamp - a.timeStamp),
             };
           });
         } else {
-          this.allOrders = [];
+          this.currentOrders = [];
         }
         this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
+      },
+    });
+  }
+
+  listAllOrders() {
+    this.loading = true;
+    this.orderSub2 = this.orderService.listAllOrders().subscribe({
+      next: (res) => {
+        if (res.length >= 1) {
+          const orders = res;
+          const orderTitles = [
+            { type: 0, title: 'Upcoming schedule' },
+            { type: 1, title: 'Upcoming pickup' },
+            { type: 2, title: 'Upcoming serve' },
+          ];
+          this.deliveredOrders = orderTitles.map((orderTitle) => {
+            return {
+              type: orderTitle.type,
+              title: orderTitle.title,
+              children: orders
+                .filter((order) => order.orderType === orderTitle.type)
+                .sort((a, b) => b.timeStamp - a.timeStamp),
+            };
+          });
+        } else {
+          this.deliveredOrders = [];
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        this.loading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
       },
     });
   }
@@ -149,8 +181,12 @@ export class AccountScreenComponent implements OnInit {
       this.authSub.unsubscribe();
     }
 
-    if (this.orderSub) {
-      this.orderSub.unsubscribe();
+    if (this.orderSub1) {
+      this.orderSub1.unsubscribe();
+    }
+
+    if (this.orderSub2) {
+      this.orderSub2.unsubscribe();
     }
   }
 }

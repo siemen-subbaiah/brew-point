@@ -11,7 +11,6 @@ import { BottomSheetComponent } from '../../components/bottom-sheet/bottom-sheet
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { UtilService } from '../../services/util.service';
 import { Subscription } from 'rxjs';
-import { testWorker } from '../../utils/data';
 @Component({
   selector: 'app-main-layout',
   standalone: true,

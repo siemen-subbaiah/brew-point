@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { navLinks } from '../../utils/data';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CartService } from '../../../cart/services/cart.service';
+import { UtilService } from '../../services/util.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../auth/services/auth.service';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-nav-links',
@@ -19,7 +23,27 @@ import { CartService } from '../../../cart/services/cart.service';
   templateUrl: './nav-links.component.html',
   styleUrl: './nav-links.component.scss',
 })
-export class NavLinksComponent {
+export class NavLinksComponent implements OnInit, OnDestroy {
   navLinks = navLinks;
-  constructor(public cartService: CartService) {}
+  photoURL!: string;
+  photoURLSub = new Subscription();
+
+  constructor(
+    private authService: AuthService,
+    public cartService: CartService,
+  ) {}
+
+  ngOnInit(): void {
+    this.photoURLSub = this.authService.user$.subscribe({
+      next: (res: User) => {
+        if (res) {
+          this.photoURL = res?.photoURL ?? '';
+        }
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.photoURLSub.unsubscribe();
+  }
 }

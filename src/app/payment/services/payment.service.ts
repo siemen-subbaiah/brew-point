@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Product } from '../../cafes/models/cafe.model';
-import { from, switchMap, tap } from 'rxjs';
+import { from, map, switchMap, tap } from 'rxjs';
 import { StripeService } from 'ngx-stripe';
 import { Order } from '../../orders/models/order.model';
 import {
@@ -9,6 +9,7 @@ import {
   collection,
   doc,
   Firestore,
+  getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
 
@@ -26,7 +27,13 @@ export class PaymentService {
 
   placeOrder(order: Order) {
     const promise = addDoc(this.orderCollection, order);
-    return from(promise);
+    return from(promise).pipe(
+      switchMap((docRef) => getDoc(docRef)),
+      map((docSnap) => ({
+        id: docSnap.id, // Include the document ID
+        ...docSnap.data(), // Spread the order data
+      })),
+    );
   }
 
   payCounter(order: Order) {

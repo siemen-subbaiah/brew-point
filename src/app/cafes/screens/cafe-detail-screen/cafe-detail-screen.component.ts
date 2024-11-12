@@ -10,12 +10,12 @@ import { Subscription } from 'rxjs';
 import { ProductFilterPipe } from '../../pipes/product-filter.pipe';
 import { BreakPointService } from '../../../core/services/break-point.service';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
-import { OrderService } from '../../../orders/services/order.service';
 import { MatButtonModule } from '@angular/material/button';
 import { BottomSheetComponent } from '../../../core/components/bottom-sheet/bottom-sheet.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CartService } from '../../../cart/services/cart.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UtilService } from '../../../core/services/util.service';
 
 @Component({
   selector: 'app-cafe-detail-screen',
@@ -69,9 +69,9 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
     public breakPointService: BreakPointService,
     private cafeService: CafeService,
     public cartService: CartService,
+    private utilService: UtilService,
     private router: Router,
     private route: ActivatedRoute,
-    private orderService: OrderService,
   ) {}
 
   ngOnInit(): void {
@@ -99,6 +99,9 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.noData = true;
         this.loading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
       },
       complete: () => {
         this.loading = false;
@@ -145,6 +148,12 @@ export class CafeDetailScreenComponent implements OnInit, OnDestroy {
           });
         }
         this.productsLoading = false;
+      },
+      error: () => {
+        this.productsLoading = false;
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
       },
     });
   }

@@ -137,7 +137,18 @@
     </div>
   </section>
 } @else {
-  <section>
-    <p>Need empty state here!</p>
+  <section class="h-[85vh] flex flex-col items-center justify-center">
+    <img
+      src="/cart-empty-state.svg"
+      alt="cart-empty"
+      class="mb-5"
+      [height]="breakPointService.isMobileScreen ? 250 : 400"
+      [width]="breakPointService.isMobileScreen ? 250 : 400"
+    />
+    <p class="mat-body-large text-center">
+      Your cart is looking a bit lonely! How about we fill it up with some
+      delicious coffee?
+    </p>
+    <a routerLink="/cafes" mat-stroked-button>Browse Cafes</a>
   </section>
 }

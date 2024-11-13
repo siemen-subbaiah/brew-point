@@ -204,8 +204,8 @@ export class OrderScreenComponent implements OnInit, OnDestroy {
       clearInterval(this.intervalId);
     }
 
-    if (orderWorker) {
-      orderWorker.terminate();
-    }
+    // if (orderWorker) {
+    //   orderWorker.terminate();
+    // }
   }
 }

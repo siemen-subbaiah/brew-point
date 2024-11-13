@@ -52,7 +52,22 @@
               }
             </div>
           } @else {
-            <p>need empty state here</p>
+            <section
+              class="flex flex-col items-center justify-center mt-4 overflow-hidden"
+            >
+              <img
+                src="/account-empty-state.svg"
+                alt="cart-empty"
+                class="mb-5"
+                [height]="250"
+                [width]="250"
+              />
+              <p class="mat-body-large text-center">
+                It seems you don't have any current orders. How about we grab
+                some coffee?
+              </p>
+              <a routerLink="/cafes" mat-stroked-button>Browse Cafes</a>
+            </section>
           }
         </mat-tab>
         <mat-tab label="Order Histroy">
@@ -68,7 +83,22 @@
               }
             </div>
           } @else {
-            <p>need empty state here</p>
+            <section
+              class="flex flex-col items-center justify-center mt-4 overflow-hidden"
+            >
+              <img
+                src="/account-empty-state.svg"
+                alt="cart-empty"
+                class="mb-5"
+                [height]="250"
+                [width]="250"
+              />
+              <p class="mat-body-large text-center">
+                It seems you don't have any orders. How about we grab some
+                coffee?
+              </p>
+              <a routerLink="/cafes" mat-stroked-button>Browse Cafes</a>
+            </section>
           }
         </mat-tab>
       </mat-tab-group>

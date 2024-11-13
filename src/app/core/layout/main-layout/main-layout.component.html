@@ -7,7 +7,12 @@
 >
   <ng-content />
   <div style="display: flex; align-items: center; justify-content: center">
-    @if (cartService.cartItems.length >= 1 && !isCartPage && !isAvatarPage) {
+    @if (
+      cartService.cartItems.length >= 1 &&
+      !isCartPage &&
+      !isAvatarPage &&
+      !isAccountPage
+    ) {
       <button
         (click)="onOpenBottomSheet()"
         mat-fab

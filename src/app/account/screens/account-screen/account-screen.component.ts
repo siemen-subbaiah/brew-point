@@ -18,6 +18,7 @@ import {
 } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { UtilService } from '../../../core/services/util.service';
+import { BreakPointService } from '../../../core/services/break-point.service';
 
 @Component({
   selector: 'app-account-screen',
@@ -49,6 +50,7 @@ export class AccountScreenComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    public breakPointService: BreakPointService,
     private cartService: CartService,
     private utilService: UtilService,
     private orderService: OrderService,

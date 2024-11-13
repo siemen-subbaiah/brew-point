@@ -5,7 +5,7 @@ import { CartService } from '../../services/cart.service';
 import { MatButtonModule } from '@angular/material/button';
 import { UtilService } from '../../../core/services/util.service';
 import { OrderType, TableType } from '../../../core/models/core.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PaymentService } from '../../../payment/services/payment.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
@@ -21,19 +21,21 @@ import { SpinnerComponent } from '../../../core/components/spinner/spinner.compo
 import { Product } from '../../../cafes/models/cafe.model';
 import { Subscription } from 'rxjs';
 import { orderWorker } from '../../../core/utils/data';
+import { BreakPointService } from '../../../core/services/break-point.service';
 
 @Component({
   selector: 'app-cart-screen',
   standalone: true,
   imports: [
     CartListComponent,
+    RouterLink,
+    SpinnerComponent,
     MatButtonModule,
     MatCardModule,
     MatRadioModule,
     MatHint,
     MatIconModule,
     MatDividerModule,
-    SpinnerComponent,
   ],
   templateUrl: './cart-screen.component.html',
   styleUrl: './cart-screen.component.scss',
@@ -52,6 +54,7 @@ export class CartScreenComponent implements OnInit, OnDestroy {
 
   constructor(
     private bottomSheet: MatBottomSheet,
+    public breakPointService: BreakPointService,
     public cartService: CartService,
     private cafeService: CafeService,
     private clipboard: Clipboard,

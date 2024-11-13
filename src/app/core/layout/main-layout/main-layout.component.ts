@@ -40,6 +40,10 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     return this.router.url.includes('avatar');
   }
 
+  get isAccountPage() {
+    return this.router.url.includes('account');
+  }
+
   get isCartPage() {
     return this.router.url.includes('cart');
   }

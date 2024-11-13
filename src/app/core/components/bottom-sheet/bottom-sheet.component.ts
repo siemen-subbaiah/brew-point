@@ -17,6 +17,8 @@ import {
   provideNativeDateTimeAdapter,
 } from '@dhutaryan/ngx-mat-timepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { OrderType } from '../../models/core.model';
+import { Product } from '../../../cafes/models/cafe.model';
 
 @Component({
   selector: 'app-bottom-sheet',
@@ -115,8 +117,51 @@ export class BottomSheetComponent implements OnInit {
       selectedEndTime: this.selectedEndTime,
     };
     localStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+
+    if (this.orderType === OrderType['Reserve table']) {
+      this.prepareCustomizedCart();
+    }
+
     this.router.navigate(['/cart']);
     this.bottomSheetRef.dismiss(orderDetails);
+  }
+
+  prepareCustomizedCart() {
+    // Calculate time difference in hours
+    const startTime = this.selectedTime ? new Date(this.selectedTime) : null;
+    const endTime = this.selectedEndTime
+      ? new Date(this.selectedEndTime)
+      : null;
+
+    if (startTime && endTime) {
+      const timeDiffMs = endTime.getTime() - startTime.getTime();
+      let hoursDiff = timeDiffMs / (1000 * 60 * 60); // Convert ms to hours
+
+      // Round up to the nearest hour
+      hoursDiff = Math.ceil(hoursDiff);
+
+      // Calculate price based on hours
+      let price = 500; // Base price
+      if (hoursDiff > 1) {
+        price = 500 * hoursDiff;
+      }
+
+      const customizedCart: Product[] = [
+        {
+          id: Date.now().toString(),
+          cafeId: this.cafeID!,
+          cafeName: this.cafeName!,
+          description: '',
+          image:
+            'https://cdnimg.webstaurantstore.com/uploads/seo_category/2019/5/table-dining-sets.jpg',
+          name: `Guests (${this.guest} people)`,
+          price,
+          quantity: 1,
+          productType: 1, // does not matter!
+        },
+      ];
+      localStorage.setItem('cartItems', JSON.stringify(customizedCart));
+    }
   }
 
   resetOptions() {

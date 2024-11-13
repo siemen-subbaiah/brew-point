@@ -22,6 +22,7 @@ import { Product } from '../../../cafes/models/cafe.model';
 import { Subscription } from 'rxjs';
 import { orderWorker } from '../../../core/utils/data';
 import { BreakPointService } from '../../../core/services/break-point.service';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-cart-screen',
@@ -32,6 +33,7 @@ import { BreakPointService } from '../../../core/services/break-point.service';
     SpinnerComponent,
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatRadioModule,
     MatHint,
     MatIconModule,
@@ -109,6 +111,10 @@ export class CartScreenComponent implements OnInit, OnDestroy {
 
   get guest() {
     return this.orderDetails?.guest;
+  }
+
+  get isReserveTable() {
+    return this.orderType === OrderType['Reserve table'];
   }
 
   get reserveTableDetails() {

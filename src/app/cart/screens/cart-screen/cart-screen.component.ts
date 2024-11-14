@@ -273,16 +273,18 @@ export class CartScreenComponent implements OnInit, OnDestroy {
           ? new Date(this.orderDetails?.selectedEndTime as Date).getTime()
           : null,
         deliveryTime: Math.floor(Math.random() * 5) + 1,
+        deliveredTime: null,
         cartItems:
           this.cartService.cartItems.length >= 1
             ? this.cartService.cartItems
             : [],
+        paymentMode: 2, // 2 will be always counter
       })
       .subscribe({
         next: (res) => {
           if (res) {
             const respData = res as Order;
-            this.router.navigate(['/order', respData.id]);
+            this.router.navigate(['/order', '/track', respData.id]);
             orderWorker.postMessage({ deliveryTime: respData.deliveryTime });
             this.onClearCart();
             localStorage.removeItem('orderDetails');

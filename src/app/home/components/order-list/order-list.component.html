@@ -8,6 +8,6 @@
     </div>
   </mat-card-header>
   @for (order of orderDetailsArray; track order.id) {
-    <app-order-list-details [order]="order" />
+    <app-order-list-details [order]="order" [currentOrder]="currentOrder" />
   }
 </mat-card>

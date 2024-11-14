@@ -6,6 +6,7 @@ import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { UtilService } from '../../../core/services/util.service';
 import { Order, OrderDetails } from '../../../orders/models/order.model';
 import { orderWorker } from '../../../core/utils/data';
+import { OrderType } from '../../../core/models/core.model';
 
 @Component({
   selector: 'app-success',
@@ -69,19 +70,25 @@ export class SuccessComponent implements OnInit {
           ? new Date(this.orderDetails?.selectedEndTime as Date).getTime()
           : null,
         deliveryTime: Math.floor(Math.random() * 5) + 1,
+        deliveredTime: null,
         cartItems:
           this.cartService.cartItems.length >= 1
             ? this.cartService.cartItems
             : [],
+        paymentMode: 1, // 1 will be always online
       })
       .subscribe({
         next: (res) => {
           if (res) {
             const respData = res as Order;
-            this.router.navigate(['/order', respData.id]);
-            orderWorker.postMessage({
-              deliveryTime: respData.deliveryTime,
-            });
+            if (respData.orderType !== OrderType['Reserve table']) {
+              this.router.navigate(['/order', '/track', respData.id]);
+              orderWorker.postMessage({
+                deliveryTime: respData.deliveryTime,
+              });
+            } else {
+              this.router.navigate(['/order', '/histroy', respData.id]);
+            }
             this.cartService.clearCart();
             localStorage.removeItem('orderDetails');
           } else {

@@ -16,6 +16,8 @@ export interface Order {
   selectedTime?: number | null;
   selectedEndTime?: number | null;
   deliveryTime?: number | null;
+  deliveredTime?: number | null;
+  paymentMode: number;
   cartItems: Product[];
 }
 

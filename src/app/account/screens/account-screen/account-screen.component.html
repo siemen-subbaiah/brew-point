@@ -47,7 +47,13 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               @for (currentOrder of currentOrders; track currentOrder.type) {
                 @if (currentOrder.children.length >= 1) {
-                  <app-order-list [details]="currentOrder" [isHome]="false" />
+                  <app-order-list
+                    [details]="currentOrder"
+                    [isHome]="false"
+                    [currentOrder]="
+                      currentOrder.children[0].orderType === 0 ? false : true
+                    "
+                  />
                 }
               }
             </div>
@@ -78,7 +84,11 @@
                 track deliveredOrder.type
               ) {
                 @if (deliveredOrder.children.length >= 1) {
-                  <app-order-list [details]="deliveredOrder" [isHome]="false" />
+                  <app-order-list
+                    [details]="deliveredOrder"
+                    [isHome]="false"
+                    [currentOrder]="false"
+                  />
                 }
               }
             </div>

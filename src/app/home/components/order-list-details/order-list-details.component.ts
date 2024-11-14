@@ -21,4 +21,11 @@ import { RouterLink } from '@angular/router';
 })
 export class OrderListDetailsComponent {
   @Input({ required: true }) order!: Order;
+  @Input() currentOrder!: boolean;
+
+  get determineOrderURL() {
+    return this.currentOrder
+      ? ['/order', 'track', this.order.id]
+      : ['/order', 'history', this.order.id];
+  }
 }

@@ -15,6 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 export class CartListComponent {
   @Input({ required: true }) product!: Product;
   @Input({ required: true }) isProduct!: boolean;
+  @Input({ required: true }) isOrderHistroy!: boolean;
   @Input() isReserveTable!: boolean;
   @Output() emitRemoveCombo = new EventEmitter<string>();
 

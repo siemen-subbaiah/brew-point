@@ -11,7 +11,8 @@
       cartService.cartItems.length >= 1 &&
       !isCartPage &&
       !isAvatarPage &&
-      !isAccountPage
+      !isAccountPage &&
+      !isOrderHistroyPage
     ) {
       <button
         (click)="onOpenBottomSheet()"

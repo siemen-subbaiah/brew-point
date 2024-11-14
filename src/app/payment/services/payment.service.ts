@@ -58,12 +58,13 @@ export class PaymentService {
       );
   }
 
-  updateOrder(orderId: string, deliveryTime: number) {
+  updateOrder(orderId: string, deliveryTime: number, deliveredTime: number) {
     const orderRef = doc(this.firestore, 'orders', orderId);
     console.log(orderRef);
     const promise = updateDoc(orderRef, {
       isDelivered: true,
       deliveryTime,
+      deliveredTime,
     });
     return from(promise);
   }

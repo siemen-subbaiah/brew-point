@@ -68,10 +68,12 @@ export class CancelComponent implements OnInit {
           ? new Date(this.orderDetails?.selectedEndTime as Date).getTime()
           : null,
         deliveryTime: null,
+        deliveredTime: null,
         cartItems:
           this.cartService.cartItems.length >= 1
             ? this.cartService.cartItems
             : [],
+        paymentMode: 1, // 1 will be always online
       })
       .subscribe({
         next: (res) => {

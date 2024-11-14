@@ -10,10 +10,14 @@
       />
       <div>
         <p class="mat-body-large" style="margin: 0">{{ product.name }}</p>
-        <p class="mat-body-medium">₹{{ product.price * product.quantity }}</p>
+        @if (isOrderHistroy) {
+          <p class="mat-body-medium">₹{{ product.price }}</p>
+        } @else {
+          <p class="mat-body-medium">₹{{ product.price * product.quantity }}</p>
+        }
       </div>
     </div>
-    @if (!isReserveTable) {
+    @if (!isReserveTable && !isOrderHistroy) {
       <div class="cart-btn">
         @if (isProduct) {
           <button (click)="onRemoveItem(product)" mat-icon-button>
@@ -27,6 +31,12 @@
           <button mat-button (click)="onAddItem(product, true)">Add</button>
         }
       </div>
+    }
+
+    @if (isOrderHistroy) {
+      <p class="mat-body-medium relative top-[12px]">
+        X {{ product.quantity }}
+      </p>
     }
   </section>
   <mat-divider></mat-divider>

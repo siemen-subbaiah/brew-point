@@ -24,6 +24,7 @@ export class OrderListComponent implements OnChanges {
     children: Order | Order[];
   };
   @Input({ required: true }) isHome!: boolean;
+  @Input({ required: true }) currentOrder!: boolean;
   orderDetailsArray: Order[] = this.details?.children as Order[];
 
   ngOnChanges(changes: SimpleChanges) {

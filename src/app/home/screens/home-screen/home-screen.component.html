@@ -9,7 +9,13 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
         @for (currentOrder of currentRecentOrders; track currentOrder.type) {
           @if (currentOrder.children) {
-            <app-order-list [details]="currentOrder" [isHome]="true" />
+            <app-order-list
+              [details]="currentOrder"
+              [isHome]="true"
+              [currentOrder]="
+                currentOrder.children.orderType === 0 ? false : true
+              "
+            />
           }
         }
       </div>

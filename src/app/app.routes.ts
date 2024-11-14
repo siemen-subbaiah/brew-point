@@ -106,11 +106,18 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: ':id',
+        path: 'track/:id',
         loadComponent: () =>
-          import('./orders/screens/order-screen/order-screen.component').then(
-            (m) => m.OrderScreenComponent,
-          ),
+          import(
+            './orders/screens/order-tracking-screen/order-tracking-screen.component'
+          ).then((m) => m.OrderTrackingScreenComponent),
+      },
+      {
+        path: 'history/:id',
+        loadComponent: () =>
+          import(
+            './orders/screens/order-history-screen/order-history-screen.component'
+          ).then((m) => m.OrderHistoryScreenComponent),
       },
     ],
     title: 'CoffeeApp | Order',

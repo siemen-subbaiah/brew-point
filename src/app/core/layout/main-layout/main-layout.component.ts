@@ -48,6 +48,10 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     return this.router.url.includes('cart');
   }
 
+  get isOrderHistroyPage() {
+    return this.router.url.includes('order');
+  }
+
   onOpenBottomSheet() {
     const orderDetails = this.utilService.getOrderDetails();
 

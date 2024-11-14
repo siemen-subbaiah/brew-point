@@ -23,7 +23,7 @@ import { UtilService } from '../../../core/services/util.service';
 import { orderWorker } from '../../../core/utils/data';
 
 @Component({
-  selector: 'app-order-screen',
+  selector: 'app-order-tracking-screen',
   standalone: true,
   imports: [
     RouterLink,
@@ -33,8 +33,8 @@ import { orderWorker } from '../../../core/utils/data';
     MatProgressBarModule,
     MatStepperModule,
   ],
-  templateUrl: './order-screen.component.html',
-  styleUrl: './order-screen.component.scss',
+  templateUrl: './order-tracking-screen.component.html',
+  styleUrl: './order-tracking-screen.component.scss',
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
@@ -42,7 +42,7 @@ import { orderWorker } from '../../../core/utils/data';
     },
   ],
 })
-export class OrderScreenComponent implements OnInit, OnDestroy {
+export class OrderTrackingScreenComponent implements OnInit, OnDestroy {
   orderId!: string;
   isOrderAccepted = false;
   isOrderPrepared = false;
@@ -62,10 +62,10 @@ export class OrderScreenComponent implements OnInit, OnDestroy {
     public breakPointService: BreakPointService,
     private cdr: ChangeDetectorRef,
     private paymentService: PaymentService,
-    private utilService: UtilService,
-    private route: ActivatedRoute,
-    private router: Router,
     private orderService: OrderService,
+    private utilService: UtilService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -137,7 +137,11 @@ export class OrderScreenComponent implements OnInit, OnDestroy {
         clearInterval(this.intervalId);
         this.isOrderDone = true;
         this.essentialsUpdate('done.svg');
-        this.updateOrderDelivery(this.orderId, this.deliveryTime);
+        this.updateOrderDelivery(
+          this.orderId,
+          this.deliveryTime,
+          new Date().getTime(),
+        );
       }
     }, 1000);
   }
@@ -148,7 +152,11 @@ export class OrderScreenComponent implements OnInit, OnDestroy {
       this.progress = 100;
       this.isOrderDone = true;
       this.essentialsUpdate('done.svg');
-      this.updateOrderDelivery(this.orderId, this.deliveryTime);
+      this.updateOrderDelivery(
+        this.orderId,
+        this.deliveryTime,
+        new Date().getTime(),
+      );
 
       if (orderWorker) {
         orderWorker.terminate();
@@ -180,17 +188,23 @@ export class OrderScreenComponent implements OnInit, OnDestroy {
     this.stepper.next();
   }
 
-  updateOrderDelivery(orderId: string, deliveryTime: number) {
-    this.paymentService.updateOrder(orderId, deliveryTime).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.utilService.openSnackBar('Order delivered successfully');
-      },
-      error: (err) => {
-        console.log(err);
-        this.utilService.openSnackBar('Something went wrong');
-      },
-    });
+  updateOrderDelivery(
+    orderId: string,
+    deliveryTime: number,
+    deliveredTime: number,
+  ) {
+    this.paymentService
+      .updateOrder(orderId, deliveryTime, deliveredTime)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.utilService.openSnackBar('Order delivered successfully');
+        },
+        error: (err) => {
+          console.log(err);
+          this.utilService.openSnackBar('Something went wrong');
+        },
+      });
   }
 
   ngOnDestroy(): void {

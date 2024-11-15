@@ -21,6 +21,7 @@ export class LoginScreenComponent {
       next: (res) => {
         this.authService.currentUser = res.user;
         localStorage.setItem('photoURL', res?.user?.photoURL ?? '');
+        this.authService.profileChanged$.next(res.user.photoURL as string);
         if (!this.authService.isAvatarExists(res.user.photoURL)) {
           this.router.navigate(['/avatar']);
         } else {

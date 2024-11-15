@@ -78,7 +78,6 @@ export class CancelComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res) {
-            console.log(res);
             // this.router.navigate(['/order', res.id]);
             this.cartService.clearCart();
             localStorage.removeItem('orderDetails');
@@ -88,7 +87,6 @@ export class CancelComponent implements OnInit {
         },
         error: (e) => {
           console.log(e);
-          console.log('error');
         },
         complete: () => {
           console.log('order canceld!');

@@ -28,7 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authSub = this.authService.user$.subscribe({
       next: (res: User) => {
         if (res) {
-          console.log(res);
           this.userLoggedIn = true;
           this.authService.currentUser = res;
           localStorage.setItem('uid', res?.uid);

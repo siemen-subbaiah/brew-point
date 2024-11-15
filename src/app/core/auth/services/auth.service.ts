@@ -7,7 +7,7 @@ import {
   User,
   user,
 } from '@angular/fire/auth';
-import { from } from 'rxjs';
+import { from, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,7 @@ export class AuthService {
   auth = inject(Auth);
   user$ = user(this.auth);
   currentUser!: User;
+  profileChanged$ = new Subject<string>();
 
   loginOrRegister() {
     const promise = signInWithPopup(this.auth, new GoogleAuthProvider());

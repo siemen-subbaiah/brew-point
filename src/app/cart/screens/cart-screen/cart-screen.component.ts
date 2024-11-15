@@ -79,7 +79,6 @@ export class CartScreenComponent implements OnInit, OnDestroy {
           next: (res: OrderDetails) => {
             this.orderDetails = res;
             this.orderType = this.orderDetails?.orderType as number;
-            console.log(this.orderDetails);
           },
         });
     }
@@ -181,7 +180,6 @@ export class CartScreenComponent implements OnInit, OnDestroy {
   }
 
   addCombo(combo: Product) {
-    console.log('here it is not running!');
     this.combos.push(combo);
   }
 
@@ -194,7 +192,6 @@ export class CartScreenComponent implements OnInit, OnDestroy {
           if (res) {
             this.orderDetails = res;
             this.orderType = this.orderDetails?.orderType as number;
-            console.log(this.orderDetails);
           }
         },
       });
@@ -284,8 +281,12 @@ export class CartScreenComponent implements OnInit, OnDestroy {
         next: (res) => {
           if (res) {
             const respData = res as Order;
-            this.router.navigate(['/order', '/track', respData.id]);
-            orderWorker.postMessage({ deliveryTime: respData.deliveryTime });
+            if (respData.orderType !== OrderType['Reserve table']) {
+              this.router.navigate(['/order', '/track', respData.id]);
+              orderWorker.postMessage({ deliveryTime: respData.deliveryTime });
+            } else {
+              this.router.navigate(['/order', '/histroy', respData.id]);
+            }
             this.onClearCart();
             localStorage.removeItem('orderDetails');
           } else {

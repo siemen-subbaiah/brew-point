@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Update Your Brew-tiful Profile Picture</h2>
+<mat-dialog-content class="mat-typography">
+  @if (avatars) {
+    <div
+      class="flex flex-wrap items-center justify-center gap-5 rounded-md p-5"
+    >
+      @for (avatar of avatars; track avatar) {
+        <img
+          [src]="avatar"
+          alt="avatar"
+          height="120"
+          width="120"
+          class="rounded-full cursor-pointer"
+          (click)="onSelectAvatar(avatar)"
+          [class.highlight]="selectedAvatar === avatar"
+        />
+      }
+    </div>
+  } @else {
+    <app-spinner />
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-flat-button
+    [disabled]="!selectedAvatar"
+    (click)="onUpdateAvatar()"
+  >
+    Update
+  </button>
+</mat-dialog-actions>

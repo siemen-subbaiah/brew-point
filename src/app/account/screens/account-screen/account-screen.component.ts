@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { User } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
-import { NgOptimizedImage } from '@angular/common';
 import { CartService } from '../../../cart/services/cart.service';
 import { OrderService } from '../../../orders/services/order.service';
 import { Order } from '../../../orders/models/order.model';
@@ -19,12 +18,13 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 import { UtilService } from '../../../core/services/util.service';
 import { BreakPointService } from '../../../core/services/break-point.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AvatarModalComponent } from '../../components/avatar-modal/avatar-modal.component';
 
 @Component({
   selector: 'app-account-screen',
   standalone: true,
   imports: [
-    NgOptimizedImage,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
@@ -52,6 +52,7 @@ export class AccountScreenComponent implements OnInit {
     private authService: AuthService,
     public breakPointService: BreakPointService,
     private cartService: CartService,
+    private dialog: MatDialog,
     private utilService: UtilService,
     private orderService: OrderService,
     private router: Router,
@@ -66,16 +67,7 @@ export class AccountScreenComponent implements OnInit {
       this.isDarkTheme = false;
     }
 
-    this.authSub = this.authService.user$.subscribe({
-      next: (res: User) => {
-        if (res) {
-          this.displayName = res?.displayName ?? '';
-          this.email = res?.email ?? '';
-          this.photoURL = res?.photoURL ?? '';
-        }
-      },
-    });
-
+    this.getAccountInfo();
     this.listCurrentOrders();
     this.listAllOrders();
   }
@@ -90,6 +82,18 @@ export class AccountScreenComponent implements OnInit {
       localStorage.removeItem('dark-theme');
       document.body.classList.remove('dark-theme');
     }
+  }
+
+  getAccountInfo() {
+    this.authSub = this.authService.user$.subscribe({
+      next: (res: User) => {
+        if (res) {
+          this.displayName = res?.displayName ?? '';
+          this.email = res?.email ?? '';
+          this.photoURL = res?.photoURL ?? '';
+        }
+      },
+    });
   }
 
   listCurrentOrders() {
@@ -158,6 +162,17 @@ export class AccountScreenComponent implements OnInit {
         );
       },
     });
+  }
+
+  onOpenAvatarModal() {
+    this.dialog
+      .open(AvatarModalComponent)
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.getAccountInfo();
+        }
+      });
   }
 
   get isDeliveredOrdersEmpty() {

@@ -197,7 +197,6 @@ export class OrderTrackingScreenComponent implements OnInit, OnDestroy {
       .updateOrder(orderId, deliveryTime, deliveredTime)
       .subscribe({
         next: (res) => {
-          console.log(res);
           this.utilService.openSnackBar('Order delivered successfully');
         },
         error: (err) => {

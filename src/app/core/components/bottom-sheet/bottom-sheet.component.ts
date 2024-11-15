@@ -19,6 +19,7 @@ import {
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { OrderType } from '../../models/core.model';
 import { Product } from '../../../cafes/models/cafe.model';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'app-bottom-sheet',
@@ -74,6 +75,7 @@ export class BottomSheetComponent implements OnInit {
     },
     private bottomSheetRef: MatBottomSheetRef<BottomSheetComponent>,
     public breakPointService: BreakPointService,
+    private cartService: CartService,
     private router: Router,
     private utilService: UtilService,
   ) {
@@ -160,6 +162,7 @@ export class BottomSheetComponent implements OnInit {
           productType: 1, // does not matter!
         },
       ];
+      this.cartService.cartItems = [...customizedCart];
       localStorage.setItem('cartItems', JSON.stringify(customizedCart));
     }
   }

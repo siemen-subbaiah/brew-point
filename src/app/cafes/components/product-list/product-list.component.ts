@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { TruncatePipe } from '../../../core/pipes/truncate.pipe';
-import { NgOptimizedImage } from '@angular/common';
 import { Product } from '../../models/cafe.model';
 import { MatIconModule } from '@angular/material/icon';
 import { CartService } from '../../../cart/services/cart.service';
@@ -13,13 +12,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [
-    NgOptimizedImage,
-    TruncatePipe,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [TruncatePipe, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })

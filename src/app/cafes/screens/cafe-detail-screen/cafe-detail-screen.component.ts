@@ -3,7 +3,6 @@ import { CafeService } from '../../services/cafe.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cafe, Product } from '../../models/cafe.model';
 import { ProductListComponent } from '../../components/product-list/product-list.component';
-import { NgOptimizedImage } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipListboxChange, MatChipsModule } from '@angular/material/chips';
 import { Subscription } from 'rxjs';
@@ -24,7 +23,6 @@ import { UtilService } from '../../../core/services/util.service';
     ProductListComponent,
     SpinnerComponent,
     ProductFilterPipe,
-    NgOptimizedImage,
     MatButtonModule,
     MatChipsModule,
     MatIconModule,

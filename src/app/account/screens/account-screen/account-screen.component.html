@@ -5,14 +5,23 @@
   >
     <mat-card-header>
       <div class="flex flex-col items-center">
-        <img
-          mat-card-image
-          [ngSrc]="photoURL"
-          alt="avatar"
-          height="120"
-          width="120"
-          class="rounded-full"
-        />
+        <div class="relative">
+          <img
+            mat-card-image
+            [src]="photoURL"
+            alt="avatar"
+            height="120"
+            width="120"
+            class="rounded-full"
+          />
+          <button
+            (click)="onOpenAvatarModal()"
+            mat-mini-fab
+            style="position: absolute; bottom: 5px; right: 0"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
         <mat-card-title>{{ displayName }}</mat-card-title>
         <mat-card-subtitle>{{ email }}</mat-card-subtitle>
       </div>

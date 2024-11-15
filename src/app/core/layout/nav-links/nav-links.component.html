@@ -10,9 +10,11 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         @if (item.path === "cart") {
-          <mat-icon [matBadge]="cartService.cartItemCount">{{
-            item.icon
-          }}</mat-icon>
+          <mat-icon
+            [matBadge]="cartService.cartItemCount"
+            aria-hidden="false"
+            >{{ item.icon }}</mat-icon
+          >
         } @else if (item.path === "account") {
           <img [src]="photoURL" alt="avatar" class="rounded-full h-10 w-10" />
         } @else {

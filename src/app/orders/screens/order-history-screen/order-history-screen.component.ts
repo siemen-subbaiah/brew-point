@@ -50,8 +50,6 @@ export class OrderHistoryScreenComponent implements OnInit, OnDestroy {
     this.orderSub = this.orderService.getOrderById(orderId).subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
-
           this.order = res;
         } else {
           this.router.navigate(['/']);

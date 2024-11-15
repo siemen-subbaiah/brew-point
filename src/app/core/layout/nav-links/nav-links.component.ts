@@ -34,13 +34,13 @@ export class NavLinksComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.photoURLSub = this.authService.user$.subscribe({
-      next: (res: User) => {
-        if (res) {
-          this.photoURL = res?.photoURL ?? '';
-        }
-      },
+    this.photoURLSub = this.authService.profileChanged$.subscribe((res) => {
+      if (res) {
+        this.photoURL = res ?? '';
+      }
     });
+
+    this.photoURL = localStorage.getItem('photoURL') ?? '';
   }
 
   ngOnDestroy(): void {

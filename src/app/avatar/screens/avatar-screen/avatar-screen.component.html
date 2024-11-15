@@ -10,17 +10,13 @@
       >
         @for (avatar of avatars; track avatar) {
           <img
-            [ngSrc]="avatar"
+            [src]="avatar"
             alt="avatar"
             height="120"
             width="120"
             class="rounded-full cursor-pointer"
             (click)="onSelectAvatar(avatar)"
-            [style.border]="
-              selectedAvatar === avatar
-                ? '2px solid var(--sys-outline-variant)'
-                : null
-            "
+            [class.highlight]="selectedAvatar === avatar"
           />
         }
       </div>

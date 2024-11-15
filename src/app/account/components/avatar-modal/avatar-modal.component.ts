@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AvatarService } from '../../services/avatar.service';
-import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { Router, RouterLink } from '@angular/router';
+import { AvatarService } from '../../../avatar/services/avatar.service';
+import { UtilService } from '../../../core/services/util.service';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
-import { UtilService } from '../../../core/services/util.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-avatar-screen',
+  selector: 'app-avatar-modal',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, SpinnerComponent],
-  templateUrl: './avatar-screen.component.html',
-  styleUrl: './avatar-screen.component.scss',
+  imports: [MatButtonModule, MatDialogModule, SpinnerComponent],
+  templateUrl: './avatar-modal.component.html',
+  styleUrl: './avatar-modal.component.scss',
 })
-export class AvatarScreenComponent implements OnInit, OnDestroy {
+export class AvatarModalComponent implements OnInit, OnDestroy {
   loading!: boolean;
   avatars!: string[];
   selectedAvatar!: string;
@@ -23,8 +23,8 @@ export class AvatarScreenComponent implements OnInit, OnDestroy {
   constructor(
     private avatarService: AvatarService,
     private authService: AuthService,
+    private dialogRef: MatDialogRef<AvatarModalComponent>,
     private utilService: UtilService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -57,8 +57,8 @@ export class AvatarScreenComponent implements OnInit, OnDestroy {
       next: () => {
         localStorage.setItem('photoURL', this.selectedAvatar ?? '');
         this.authService.profileChanged$.next(this.selectedAvatar as string);
+        this.dialogRef.close(true);
         this.utilService.openSnackBar('Avatar updated successfully.');
-        this.router.navigate(['/']);
       },
     });
   }

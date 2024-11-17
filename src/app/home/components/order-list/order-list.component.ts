@@ -4,15 +4,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { OrderListDetailsComponent } from '../order-list-details/order-list-details.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-order-list',
   standalone: true,
   imports: [
+    RouterLink,
+    OrderListDetailsComponent,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    OrderListDetailsComponent,
   ],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.scss',

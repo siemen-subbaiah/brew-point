@@ -137,11 +137,7 @@ export class OrderTrackingScreenComponent implements OnInit, OnDestroy {
         clearInterval(this.intervalId);
         this.isOrderDone = true;
         this.essentialsUpdate('done.svg');
-        this.updateOrderDelivery(
-          this.orderId,
-          this.deliveryTime,
-          new Date().getTime(),
-        );
+        this.updateOrderDelivery(this.orderId, this.deliveryTime, Date.now());
       }
     }, 1000);
   }
@@ -152,11 +148,7 @@ export class OrderTrackingScreenComponent implements OnInit, OnDestroy {
       this.progress = 100;
       this.isOrderDone = true;
       this.essentialsUpdate('done.svg');
-      this.updateOrderDelivery(
-        this.orderId,
-        this.deliveryTime,
-        new Date().getTime(),
-      );
+      this.updateOrderDelivery(this.orderId, this.deliveryTime, Date.now());
 
       if (orderWorker) {
         orderWorker.terminate();

@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../../cart/services/cart.service';
 import { PaymentService } from '../../services/payment.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AnimationOptions, LottieComponent } from 'ngx-lottie';
 import { UtilService } from '../../../core/services/util.service';
 import { OrderDetails } from '../../../orders/models/order.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-cancel',
   standalone: true,
-  imports: [LottieComponent],
+  imports: [RouterLink, MatButtonModule, LottieComponent],
   templateUrl: './cancel.component.html',
   styleUrl: './cancel.component.scss',
 })
@@ -52,7 +53,7 @@ export class CancelComponent implements OnInit {
         isPaid: false,
         isCanceled: false,
         isDelivered: false,
-        timeStamp: new Date().getTime(),
+        timeStamp: Date.now(),
         orderType: this.orderDetails?.orderType as number,
         cafeID: this.cartService.cartItems[0].cafeId,
         cafeName: this.cartService.cartItems[0].cafeName,

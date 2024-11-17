@@ -11,6 +11,9 @@ import { BottomSheetComponent } from '../../components/bottom-sheet/bottom-sheet
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { UtilService } from '../../services/util.service';
 import { Subscription } from 'rxjs';
+import { PaymentService } from '../../../payment/services/payment.service';
+import { OrderService } from '../../../orders/services/order.service';
+import { OrderType } from '../../models/core.model';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
@@ -30,11 +33,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     private bottomSheet: MatBottomSheet,
     public breakPointService: BreakPointService,
     public cartService: CartService,
+    private paymentService: PaymentService,
     private router: Router,
     private utilService: UtilService,
+    private orderService: OrderService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.listCurrentOrders();
+  }
 
   get isAvatarPage() {
     return this.router.url.includes('avatar');
@@ -61,6 +68,34 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     }
 
     this.router.navigate(['/cart']);
+  }
+
+  listCurrentOrders() {
+    const tolerance = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+    this.orderSub = this.orderService.listCurrentOrders().subscribe({
+      next: (res) => {
+        if (res.length >= 1) {
+          const currentOrders = res;
+          currentOrders.forEach((order) => {
+            if (order.orderType === OrderType['Reserve table']) {
+              const selectedTime = order.selectedTime as number;
+              const now = Date.now();
+
+              if (now >= selectedTime && now <= selectedTime + tolerance) {
+                this.paymentService.updateOrder(order.id as string, 0, now);
+              }
+            }
+          });
+        } else {
+        }
+      },
+      error: () => {
+        this.utilService.openSnackBar(
+          'Something went wrong, please try again later.',
+        );
+      },
+    });
   }
 
   ngOnDestroy(): void {

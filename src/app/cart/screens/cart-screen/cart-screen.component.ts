@@ -254,7 +254,7 @@ export class CartScreenComponent implements OnInit, OnDestroy {
         isPaid: true,
         isCanceled: false,
         isDelivered: false,
-        timeStamp: new Date().getTime(),
+        timeStamp: Date.now(),
         orderType: this.orderType,
         cafeID: this.cartService.cartItems[0].cafeId,
         cafeName: this.cartService.cartItems[0].cafeName,
@@ -282,10 +282,10 @@ export class CartScreenComponent implements OnInit, OnDestroy {
           if (res) {
             const respData = res as Order;
             if (respData.orderType !== OrderType['Reserve table']) {
-              this.router.navigate(['/order', '/track', respData.id]);
+              this.router.navigate(['order', 'track', respData.id]);
               orderWorker.postMessage({ deliveryTime: respData.deliveryTime });
             } else {
-              this.router.navigate(['/order', '/histroy', respData.id]);
+              this.router.navigate(['order', 'history', respData.id]);
             }
             this.onClearCart();
             localStorage.removeItem('orderDetails');

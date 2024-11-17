@@ -33,10 +33,12 @@ export class OrderService {
     }) as Observable<Order[]>;
   }
 
-  listAllOrders(): Observable<Order[]> {
+  listPreviousOrders(): Observable<Order[]> {
     const q = query(
       this.orderCollection,
       where('userId', '==', localStorage.getItem('uid')),
+      where('isPaid', '==', true),
+      where('isDelivered', '==', true),
     );
 
     return collectionData(q, {

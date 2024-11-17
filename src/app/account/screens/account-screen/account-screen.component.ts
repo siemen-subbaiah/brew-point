@@ -69,7 +69,7 @@ export class AccountScreenComponent implements OnInit {
 
     this.getAccountInfo();
     this.listCurrentOrders();
-    this.listAllOrders();
+    this.listPreviousOrders();
   }
 
   onThemeChange(e: MatButtonToggleChange) {
@@ -130,9 +130,9 @@ export class AccountScreenComponent implements OnInit {
     });
   }
 
-  listAllOrders() {
+  listPreviousOrders() {
     this.loading = true;
-    this.orderSub2 = this.orderService.listAllOrders().subscribe({
+    this.orderSub2 = this.orderService.listPreviousOrders().subscribe({
       next: (res) => {
         if (res.length >= 1) {
           const orders = res;

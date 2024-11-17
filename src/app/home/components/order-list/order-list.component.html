@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center w-full">
       <mat-card-subtitle>{{ details.title }}</mat-card-subtitle>
       @if (isHome) {
-        <button mat-button>My Orders</button>
+        <a [routerLink]="['account']" mat-button>My Orders</a>
       }
     </div>
   </mat-card-header>

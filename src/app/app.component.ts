@@ -5,6 +5,11 @@ import { User } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
 import { LoginScreenComponent } from './core/auth/screens/login-screen/login-screen.component';
 import { MainLayoutComponent } from './core/layout/main-layout/main-layout.component';
+import { OrderService } from './orders/services/order.service';
+import { UtilService } from './core/services/util.service';
+import { Order } from './orders/models/order.model';
+import { OrderType } from './core/models/core.model';
+import { PaymentService } from './payment/services/payment.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +20,10 @@ import { MainLayoutComponent } from './core/layout/main-layout/main-layout.compo
 })
 export class AppComponent implements OnInit, OnDestroy {
   authSub = new Subscription();
+  orderSub = new Subscription();
   userLoggedIn!: boolean;
+  currentOrders: Order[] = [];
+
   constructor(private authService: AuthService) {}
 
   ngOnInit() {

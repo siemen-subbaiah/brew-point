@@ -1,27 +1,27 @@
-# CoffeeApp
+# Brew Point
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+Brew Point is a one-stop app to discover cafes, reserve tables, and order seamlessly..
 
-## Development server
+[Demo](https://brewpoint.vercel.app)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+![home](https://github.com/user-attachments/assets/8edad682-6369-4bec-aca7-0d2a182ecf7d)
 
-## Code scaffolding
+![cafe](https://github.com/user-attachments/assets/820bbb4e-3ed0-41a8-915e-bbe0ca3a5e82)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![cart](https://github.com/user-attachments/assets/11ca9b08-5377-4cbd-a97e-060ec014a407)
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Features 
 
-## Running unit tests
+- Login/Signup through Google
+- Browsing Cafes
+- Cart functionality
+- Reserve table, book table and schedule pickup functionality
+- Stripe checkout
+- Order tracking and history
+- Light/Dark mode
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Tech Stack
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Frontend - Angular, Angular Material
+- Backend -  Firebase, Cloudflare Workers, Stripe

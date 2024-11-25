@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { BreakPointService } from '../../../services/break-point.service';
 
 @Component({
   selector: 'app-login-screen',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class LoginScreenComponent {
   constructor(
     private authService: AuthService,
+    public breakpointService: BreakPointService,
     private router: Router,
   ) {}
 

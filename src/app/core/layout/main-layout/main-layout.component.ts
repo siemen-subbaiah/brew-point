@@ -77,12 +77,14 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res.length >= 1) {
           const currentOrders = res;
+          console.log(res);
+
           currentOrders.forEach((order) => {
             if (order.orderType === OrderType['Reserve table']) {
               const selectedTime = order.selectedTime as number;
               const now = Date.now();
 
-              if (now >= selectedTime && now <= selectedTime + tolerance) {
+              if (now >= selectedTime && now >= selectedTime + tolerance) {
                 this.paymentService.updateOrder(order.id as string, 0, now);
               }
             }

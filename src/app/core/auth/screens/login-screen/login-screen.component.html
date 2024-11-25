@@ -1,22 +1,30 @@
 <section
-  class="flex flex-col md:flex-row items-center justify-center md:justify-around h-screen background-image px-4 md:px-0"
+  class="flex flex-col md:flex-row items-center justify-center h-screen background-image px-4 md:px-0"
 >
   <div class="flex md:block items-start gap-4">
     <img src="/logo.svg" alt="logo" />
-    <div>
-      <h1 class="mat-display-small text-white">BrewPoint</h1>
-      <p class="mat-headline-small text-white">
-        Start your coffee journey with us!
+    <div class="md:w-2/3">
+      <h1 class="mat-display-small text-white" style="margin: 0">Brew Point</h1>
+      <p
+        [class]="
+          breakpointService.isDesktopTabScreen
+            ? 'mat-headline-small'
+            : 'mat-body-large'
+        "
+        style="color: white"
+      >
+        Your one-stop app to discover cafes, reserve tables, and order
+        seamlessly.
       </p>
     </div>
   </div>
   <div
     class="flex flex-col items-center justify-center p-5 rounded-xl md:w-1/4 w-[90%] h-3/5 glass-design"
   >
-    <h1 class="mat-display-medium text-black">Welcome</h1>
-    <h2 class="mat-headline-small text-black">Login/Signup</h2>
+    <h1 class="mat-display-medium text-white" style="margin: 0">Welcome</h1>
+    <h2 class="mat-body-large text-white">Login/Signup</h2>
     <div
-      class="flex items-center justify-center gap-2 p-2 rounded-2xl mat-elevation-z1 w-1/2 mb-3 cursor-pointer text-center bg-[#FFDCBF]"
+      class="flex items-center justify-center gap-2 p-2 mt-1 rounded-2xl mat-elevation-z1 w-1/2 mb-3 cursor-pointer text-center bg-[#FFDCBF]"
       (click)="onLogin()"
     >
       <img src="/google.svg" alt="google-logo" />

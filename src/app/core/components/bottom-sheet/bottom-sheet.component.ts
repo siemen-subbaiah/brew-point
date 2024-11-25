@@ -65,6 +65,7 @@ export class BottomSheetComponent implements OnInit {
   alreadySelectedOrderType!: number;
   cafeID!: string | null;
   cafeName!: string | null;
+  minDate = new Date(); // Sets minDate to today
 
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA)

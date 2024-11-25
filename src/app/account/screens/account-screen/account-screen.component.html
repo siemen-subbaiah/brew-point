@@ -51,7 +51,12 @@
   <div class="my-2">
     @if (!loading) {
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-        <mat-tab label="Current Order">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span [matBadge]="currentOrderCount" matBadgeOverlap="false"
+              >Current Order</span
+            >
+          </ng-template>
           @if (!isCurrentOrdersEmpty) {
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               @for (currentOrder of currentOrders; track currentOrder.type) {

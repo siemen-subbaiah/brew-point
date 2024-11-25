@@ -24,7 +24,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-    title: 'CoffeeApp | Home',
+    title: 'BrewPoint | Home',
   },
   {
     path: 'avatar',
@@ -36,7 +36,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-    title: 'CoffeeApp | Avatar',
+    title: 'BrewPoint | Avatar',
   },
   {
     path: 'cafes',
@@ -44,7 +44,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-    title: 'CoffeeApp | Cafes',
+    title: 'BrewPoint | Cafes',
     children: [
       {
         path: '',
@@ -72,7 +72,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-    title: 'CoffeeApp | Cart',
+    title: 'BrewPoint | Cart',
   },
   {
     path: 'success',
@@ -84,7 +84,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-    title: 'CoffeeApp | Success',
+    title: 'BrewPoint | Success',
   },
   {
     path: 'cancel',
@@ -96,7 +96,7 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-    title: 'CoffeeApp | Cancel',
+    title: 'BrewPoint | Cancel',
   },
   {
     path: 'order',
@@ -120,7 +120,7 @@ export const routes: Routes = [
           ).then((m) => m.OrderHistoryScreenComponent),
       },
     ],
-    title: 'CoffeeApp | Order',
+    title: 'BrewPoint | Order',
   },
   {
     path: 'account',
@@ -132,6 +132,6 @@ export const routes: Routes = [
     data: {
       authGuardPipe: redirectUnauthorizedToLogin,
     },
-    title: 'CoffeeApp | Account',
+    title: 'BrewPoint | Account',
   },
 ];

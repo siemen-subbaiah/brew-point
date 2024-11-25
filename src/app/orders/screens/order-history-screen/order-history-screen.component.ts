@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import { MatDividerModule } from '@angular/material/divider';
 import { CartListComponent } from '../../../cart/components/cart-list/cart-list.component';
 import { SpinnerComponent } from '../../../core/components/spinner/spinner.component';
+import { BreakPointService } from '../../../core/services/break-point.service';
 
 @Component({
   selector: 'app-order-history-screen',
@@ -34,6 +35,7 @@ export class OrderHistoryScreenComponent implements OnInit, OnDestroy {
   orderSub = new Subscription();
 
   constructor(
+    public breakPointService: BreakPointService,
     private orderService: OrderService,
     private utilService: UtilService,
     private router: Router,

@@ -20,18 +20,20 @@ import { UtilService } from '../../../core/services/util.service';
 import { BreakPointService } from '../../../core/services/break-point.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AvatarModalComponent } from '../../components/avatar-modal/avatar-modal.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-account-screen',
   standalone: true,
   imports: [
+    OrderListComponent,
+    SpinnerComponent,
+    MatBadgeModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
     MatIconModule,
     MatTabsModule,
-    SpinnerComponent,
-    OrderListComponent,
   ],
   templateUrl: './account-screen.component.html',
   styleUrl: './account-screen.component.scss',
@@ -44,6 +46,7 @@ export class AccountScreenComponent implements OnInit {
   photoURL!: string;
   displayName!: string;
   email!: string;
+  currentOrderCount!: number;
   authSub = new Subscription();
   orderSub1 = new Subscription();
   orderSub2 = new Subscription();
@@ -102,6 +105,7 @@ export class AccountScreenComponent implements OnInit {
       next: (res) => {
         if (res.length >= 1) {
           const orders = res;
+          this.currentOrderCount = res.length;
           const orderTitles = [
             { type: 0, title: 'Upcoming schedule' },
             { type: 1, title: 'Upcoming pickup' },
